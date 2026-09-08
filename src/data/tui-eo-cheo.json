@@ -1,0 +1,50 @@
+[
+    {
+        "id": 23,
+        "name": "Túi Đeo Chéo Mini",
+        "category": "túi-đeo-chéo",
+        "price": 299000,
+        "image": "../assets/img/Products/Balo_TuiXach/Tui_deo_cheo/cheo1.webp",
+        "description": "Túi đeo chéo nam nhỏ gọn, dây đeo chắc chắn, phong cách trẻ trung năng động.",
+        "stock": 39,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 24,
+        "name": "Túi Đeo Chéo Mini Đen",
+        "category": "túi-đeo-chéo",
+        "price": 299000,
+        "image": "../assets/img/Products/Balo_TuiXach/Tui_deo_cheo/cheoden2.webp",
+        "description": "Túi đeo chéo nam nhỏ gọn, dây đeo chắc chắn, phong cách trẻ trung năng động.",
+        "stock": 31,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 25,
+        "name": "Túi Đeo Chéo Mini",
+        "category": "túi-đeo-chéo",
+        "price": 299000,
+        "image": "../assets/img/Products/Balo_TuiXach/Tui_deo_cheo/cheo_cross1.webp",
+        "description": "Túi đeo chéo nam nhỏ gọn, dây đeo chắc chắn, phong cách trẻ trung năng động.",
+        "stock": 78,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 26,
+        "name": "Túi Đeo Chéo Mini Đen",
+        "category": "túi-đeo-chéo",
+        "price": 299000,
+        "image": "../assets/img/Products/Balo_TuiXach/Tui_deo_cheo/cheo_den1.webp",
+        "description": "Túi đeo chéo nam nhỏ gọn, dây đeo chắc chắn, phong cách trẻ trung năng động.",
+        "stock": 95,
+        "sizes": [
+            "One Size"
+        ]
+    }
+]

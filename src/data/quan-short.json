@@ -1,0 +1,92 @@
+[
+    {
+        "id": 57,
+        "name": "Quần Short Be Thể Thao",
+        "category": "quần-short",
+        "price": 299000,
+        "image": "../assets/img/Products/Quan/Sort/sort_be1.webp",
+        "description": "Quần short nam mát mẻ, túi sâu tiện lợi, phù hợp dạo phố hay mặc nhà.",
+        "stock": 56,
+        "sizes": [
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34"
+        ]
+    },
+    {
+        "id": 58,
+        "name": "Quần Short Đen Thể Thao",
+        "category": "quần-short",
+        "price": 299000,
+        "image": "../assets/img/Products/Quan/Sort/sort_den1.webp",
+        "description": "Quần short nam mát mẻ, túi sâu tiện lợi, phù hợp dạo phố hay mặc nhà.",
+        "stock": 29,
+        "sizes": [
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34"
+        ]
+    },
+    {
+        "id": 59,
+        "name": "Quần Short Thể Thao",
+        "category": "quần-short",
+        "price": 299000,
+        "image": "../assets/img/Products/Quan/Sort/sort_ke1.webp",
+        "description": "Quần short nam mát mẻ, túi sâu tiện lợi, phù hợp dạo phố hay mặc nhà.",
+        "stock": 70,
+        "sizes": [
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34"
+        ]
+    },
+    {
+        "id": 60,
+        "name": "Quần Short Rêu Thể Thao",
+        "category": "quần-short",
+        "price": 249000,
+        "image": "../assets/img/Products/Quan/Sort/sort_reu1.webp",
+        "description": "Quần short nam mát mẻ, túi sâu tiện lợi, phù hợp dạo phố hay mặc nhà.",
+        "stock": 29,
+        "sizes": [
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34"
+        ]
+    },
+    {
+        "id": 61,
+        "name": "Quần Short Xám Thể Thao",
+        "category": "quần-short",
+        "price": 199000,
+        "image": "../assets/img/Products/Quan/Sort/sort_xam1.jpg",
+        "description": "Quần short nam mát mẻ, túi sâu tiện lợi, phù hợp dạo phố hay mặc nhà.",
+        "stock": 18,
+        "sizes": [
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34"
+        ]
+    }
+]

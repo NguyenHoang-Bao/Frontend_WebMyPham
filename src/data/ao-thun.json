@@ -1,0 +1,70 @@
+[
+    {
+        "id": 7,
+        "name": "Áo Thun Đen Trơn",
+        "category": "áo-thun",
+        "price": 299000,
+        "image": "../assets/img/Products/Ao/Ao_Thun/thun_den1.webp",
+        "description": "Áo thun nam cotton 100% thoáng mát, thấm hút mồ hôi tốt, dễ dàng phối đồ.",
+        "stock": 72,
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Áo Thun Đỏ Trơn",
+        "category": "áo-thun",
+        "price": 299000,
+        "image": "../assets/img/Products/Ao/Ao_Thun/thun_do1.webp",
+        "description": "Áo thun nam cotton 100% thoáng mát, thấm hút mồ hôi tốt, dễ dàng phối đồ.",
+        "stock": 14,
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+        ]
+    },
+    {
+        "id": 9,
+        "name": "Áo Thun Trắng Trơn",
+        "category": "áo-thun",
+        "price": 249000,
+        "image": "../assets/img/Products/Ao/Ao_Thun/thun_trang1.webp",
+        "description": "Áo thun nam cotton 100% thoáng mát, thấm hút mồ hôi tốt, dễ dàng phối đồ.",
+        "stock": 13,
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+        ]
+    },
+    {
+        "id": 10,
+        "name": "Áo Thun Xanh Trơn",
+        "category": "áo-thun",
+        "price": 299000,
+        "image": "../assets/img/Products/Ao/Ao_Thun/thun_xanh1.webp",
+        "description": "Áo thun nam cotton 100% thoáng mát, thấm hút mồ hôi tốt, dễ dàng phối đồ.",
+        "stock": 40,
+        "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+        ]
+    }
+]

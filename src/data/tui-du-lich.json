@@ -1,0 +1,26 @@
+[
+    {
+        "id": 27,
+        "name": "Túi Du Lịch Size Lớn Đen",
+        "category": "túi-du-lịch",
+        "price": 599000,
+        "image": "../assets/img/Products/Balo_TuiXach/Tui_du_lich/dl_den1.webp",
+        "description": "Túi du lịch nam dung tích cực lớn, thiết kế ngăn chứa giày riêng biệt, bền bỉ cùng những chuyến đi xa.",
+        "stock": 64,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 28,
+        "name": "Túi Du Lịch Size Lớn Trắng",
+        "category": "túi-du-lịch",
+        "price": 599000,
+        "image": "../assets/img/Products/Balo_TuiXach/Tui_du_lich/dl_trang1.webp",
+        "description": "Túi du lịch nam dung tích cực lớn, thiết kế ngăn chứa giày riêng biệt, bền bỉ cùng những chuyến đi xa.",
+        "stock": 65,
+        "sizes": [
+            "One Size"
+        ]
+    }
+]

@@ -1,0 +1,38 @@
+[
+    {
+        "id": 20,
+        "name": "Balo Thời Trang Đen",
+        "category": "balo",
+        "price": 499000,
+        "image": "../assets/img/Products/Balo_TuiXach/Balo/balo_den1.webp",
+        "description": "Balo nam rộng rãi, nhiều ngăn tiện lợi, chất liệu vải oxford chống nước tốt.",
+        "stock": 80,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 21,
+        "name": "Balo Thời Trang Nâu",
+        "category": "balo",
+        "price": 599000,
+        "image": "../assets/img/Products/Balo_TuiXach/Balo/balo_nau1.webp",
+        "description": "Balo nam rộng rãi, nhiều ngăn tiện lợi, chất liệu vải oxford chống nước tốt.",
+        "stock": 43,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 22,
+        "name": "Balo Thời Trang Xanh",
+        "category": "balo",
+        "price": 399000,
+        "image": "../assets/img/Products/Balo_TuiXach/Balo/balo_xanh1.webp",
+        "description": "Balo nam rộng rãi, nhiều ngăn tiện lợi, chất liệu vải oxford chống nước tốt.",
+        "stock": 71,
+        "sizes": [
+            "One Size"
+        ]
+    }
+]

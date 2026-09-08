@@ -1,0 +1,74 @@
+[
+    {
+        "id": 32,
+        "name": "Kính Kim Loại Cao Cấp",
+        "category": "kính-mắt",
+        "price": 399000,
+        "image": "../assets/img/Products/KinhMat/KimLoai/kimloai_1.webp",
+        "description": "Kính mát nam gọng kim loại sang trọng, chống tia UV400 bảo vệ mắt hoàn hảo.",
+        "stock": 96,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 33,
+        "name": "Kính Kim Loại Cao Cấp",
+        "category": "kính-mắt",
+        "price": 399000,
+        "image": "../assets/img/Products/KinhMat/KimLoai/titan1.webp",
+        "description": "Kính mát nam gọng kim loại sang trọng, chống tia UV400 bảo vệ mắt hoàn hảo.",
+        "stock": 77,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 34,
+        "name": "Kính Nhựa Xám Cao Cấp",
+        "category": "kính-mắt",
+        "price": 199000,
+        "image": "../assets/img/Products/KinhMat/Nhua/kim_xam2.webp",
+        "description": "Kính mát nam gọng nhựa dẻo dai, thiết kế thời thượng phù hợp nhiều khuôn mặt.",
+        "stock": 22,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 35,
+        "name": "Kính Nhựa Xám Cao Cấp",
+        "category": "kính-mắt",
+        "price": 249000,
+        "image": "../assets/img/Products/KinhMat/Nhua/kinh_xam1.webp",
+        "description": "Kính mát nam gọng nhựa dẻo dai, thiết kế thời thượng phù hợp nhiều khuôn mặt.",
+        "stock": 78,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 36,
+        "name": "Kính Nhựa Cao Cấp",
+        "category": "kính-mắt",
+        "price": 199000,
+        "image": "../assets/img/Products/KinhMat/Nhua/loc_1.webp",
+        "description": "Kính mát nam gọng nhựa dẻo dai, thiết kế thời thượng phù hợp nhiều khuôn mặt.",
+        "stock": 26,
+        "sizes": [
+            "One Size"
+        ]
+    },
+    {
+        "id": 37,
+        "name": "Kính Nhựa Cao Cấp",
+        "category": "kính-mắt",
+        "price": 199000,
+        "image": "../assets/img/Products/KinhMat/Nhua/tiauv_1.webp",
+        "description": "Kính mát nam gọng nhựa dẻo dai, thiết kế thời thượng phù hợp nhiều khuôn mặt.",
+        "stock": 78,
+        "sizes": [
+            "One Size"
+        ]
+    }
+]
