@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, FormEvent } from 'react';
-import { Menu, Search, User, ShoppingBag, X, ChevronDown, LogOut } from 'lucide-react';
+import { Menu, Search, User, ShoppingBag, Heart, X, ChevronDown, LogOut } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext'; 
 import logo from '../../assets/img/Navbar/logo.png';
@@ -122,33 +122,7 @@ export default function Navbar() {
           {/* Icons & Ngôn ngữ */}
           <div className="flex items-center gap-4 md:gap-6">
             
-            {/* Dropdown Ngôn ngữ (Desktop) - ĐÃ FIX LỖI HOVER */}
-            <div className="relative group hidden md:block z-50">
-              <button className="flex items-center gap-2 bg-pink-50 border border-pink-100 px-3 py-1.5 rounded-full hover:bg-pink-100 transition-colors">
-                <img src={activeLang.flag} alt={activeLang.label} className="w-5 h-4 object-cover rounded-sm" />
-                <span className="text-sm font-bold text-pink-600">{activeLang.label}</span>
-                <ChevronDown size={14} className="text-pink-500 transition-transform duration-200 group-hover:rotate-180" />
-              </button>
-              
-              {/* Thêm cầu nối tàng hình pt-2 ở đây */}
-              <div className="absolute hidden group-hover:block top-full right-0 pt-2 w-36 z-50">
-                <div className="bg-white border border-gray-100 rounded-xl shadow-xl overflow-hidden p-1">
-                  <ul className="space-y-1">
-                    {languages.map((lang) => (
-                      <li key={lang.code}>
-                        <button
-                          onClick={() => changeLanguage(lang.code)}
-                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${currentLang.startsWith(lang.code) ? 'bg-pink-50 text-pink-600 font-bold' : 'text-gray-600 hover:bg-pink-50 hover:text-pink-500'}`}
-                        >
-                          <img src={lang.flag} alt={lang.name} className="w-5 h-4 object-cover rounded-sm shadow-sm" />
-                          <span className="text-sm">{lang.name}</span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
+            
 
             {/* Dropdown Tài khoản (Desktop) - ĐÃ FIX LỖI HOVER */}
             {currentUser ? (
@@ -179,6 +153,10 @@ export default function Navbar() {
               </div>
             )}
 
+            <button className="relative text-gray-700 hover:text-pink-500 transition-colors p-1" aria-label="Wishlist">
+              <Heart size={24} />
+            </button>
+
             <button onClick={openCart} className="relative text-gray-700 hover:text-pink-500 transition-colors p-1" aria-label="Shopping Bag">
               <ShoppingBag size={24} />
               {totalItemsInCart > 0 && (
@@ -187,6 +165,35 @@ export default function Navbar() {
                 </span>
               )}
             </button>
+
+              {/* Dropdown Ngôn ngữ (Desktop) */}
+            <div className="relative group hidden md:block z-50">
+              <button className="flex items-center gap-2 bg-pink-50 border border-pink-100 px-3 py-1.5 rounded-full hover:bg-pink-100 transition-colors">
+                <img src={activeLang.flag} alt={activeLang.label} className="w-5 h-4 object-cover rounded-sm" />
+                <span className="text-sm font-bold text-pink-600">{activeLang.label}</span>
+                <ChevronDown size={14} className="text-pink-500 transition-transform duration-200 group-hover:rotate-180" />
+              </button>
+              
+              {/* Thêm cầu nối tàng hình pt-2 ở đây */}
+              <div className="absolute hidden group-hover:block top-full right-0 pt-2 w-36 z-50">
+                <div className="bg-white border border-gray-100 rounded-xl shadow-xl overflow-hidden p-1">
+                  <ul className="space-y-1">
+                    {languages.map((lang) => (
+                      <li key={lang.code}>
+                        <button
+                          onClick={() => changeLanguage(lang.code)}
+                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${currentLang.startsWith(lang.code) ? 'bg-pink-50 text-pink-600 font-bold' : 'text-gray-600 hover:bg-pink-50 hover:text-pink-500'}`}
+                        >
+                          <img src={lang.flag} alt={lang.name} className="w-5 h-4 object-cover rounded-sm shadow-sm" />
+                          <span className="text-sm">{lang.name}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
         

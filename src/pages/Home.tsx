@@ -82,6 +82,13 @@ export default function Home() {
 
   // Trộn data áo khoác và quần jean, lấy 4 sản phẩm đầu tiên làm Flash Sale
   const featuredProducts: Product[] = [...aoKhoacData.slice(0, 2), ...quanJeanData.slice(0, 2)];
+  const flashSaleProducts: Product[] = [
+    ...aoKhoacData.slice(0, 2),
+    ...quanJeanData.slice(0, 2),
+    ...aoThunData.slice(0, 1),
+  ];
+  const flashSaleNotices = ['Giảm đến 60%', 'Miễn phí vận chuyển', 'Hàng chính hãng'];
+  const [countdown, setCountdown] = useState({ days: '00', hours: '00', minutes: '00', seconds: '00' });
 
   // Auto-play: chuyển slide sau 6 giây
   useEffect(() => {
@@ -90,6 +97,27 @@ export default function Home() {
     }, 6000);
     return () => clearTimeout(timer);
   }, [currentSlide, totalSlides]);
+
+  useEffect(() => {
+    const end = new Date();
+    end.setDate(end.getDate() + 2);
+    end.setHours(23, 59, 59, 0);
+
+    const tick = () => {
+      const diff = Math.max(0, end.getTime() - Date.now());
+      const pad = (n: number) => String(n).padStart(2, '0');
+      setCountdown({
+        days: pad(Math.floor(diff / (1000 * 60 * 60 * 24))),
+        hours: pad(Math.floor((diff / (1000 * 60 * 60)) % 24)),
+        minutes: pad(Math.floor((diff / (1000 * 60)) % 60)),
+        seconds: pad(Math.floor((diff / 1000) % 60)),
+      });
+    };
+
+    tick();
+    const timer = setInterval(tick, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Dữ liệu cho Category Carousel
   const featuredCategories = [
@@ -218,65 +246,226 @@ export default function Home() {
       {/* ====== MARQUEE ANNOUNCEMENT ====== */}
       <TopBarMarquee />
 
-      {/* ====== 2. CATEGORY CAROUSEL ====== */}
+      {/* ====== 2. Danh mục nổi bật ====== */}
       <section className="py-10 px-4 sm:px-6 lg:px-8 container mx-auto">
-        <div className="text-center mb-12">
+        <div className="mb-12 flex justify-between items-center">
           <h2 className="text-3xl font-bold uppercase tracking-widest">DANH MỤC NỔI BẬT</h2>
-          <div className="w-12 h-1 bg-black mx-auto mt-4" />
+          <a href="/products" >Xem tất cả »</a>
         </div>
-        <CategoryCarousel categories={featuredCategories} />
+
+        <div className="grid grid-cols-7 gap-2 items-center text-center">
+          {/* cot1 */}
+          <div>
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Son Môi</a>
+              </div>
+            </div>
+            {/* hang2 */}
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Sữa rửa mặt</a>
+              </div>
+            </div>
+          </div>
+          {/* cot2 */}
+          <div>
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Tẩy Da Chết</a>
+              </div>
+            </div>
+            {/* hang2 */}
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Kem Chống Nắng</a>
+              </div>
+            </div>
+          </div>
+          
+          {/* cot3 */}
+          <div>
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Tẩy Trang</a>
+              </div>
+            </div>
+            {/* hang2 */}
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Cushion</a>
+              </div>
+            </div>
+          </div>
+
+          {/* cot4 */}
+          <div>
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Mặt Nạ</a>
+              </div>
+            </div>
+            {/* hang2 */}
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Thực Phẩm Chức Năng</a>
+              </div>
+            </div>
+          </div>
+
+          {/* cot5 */}
+          <div>
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Kem Dưỡng</a>
+              </div>
+            </div>
+            {/* hang2 */}
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Tinh Chất</a>
+              </div>
+            </div>
+          </div>
+
+          {/* cot6 */}
+          <div>
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Kem Dưỡng Mắt</a>
+              </div>
+            </div>
+            {/* hang2 */}
+            <div className='grid grid-cols gap-2'>
+              <a href="">
+                <img src="" alt="" />
+              </a>
+              <div>
+                <a href="">Kem Lót/Nền</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </section>
       
-      {/* ====== 5. GỢI Ý PHỐI ĐỒ TỪ AI (trước là SHOP THE LOOK) ====== */}
-      <section className="py-24 bg-gray-50 border-t border-gray-200">
+      {/* ====== 3. FLASH SALE ====== */}
+      <section id="section-flash-sale" className="pt-8">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold uppercase tracking-widest">Gợi ý phối đồ từ AI</h2>
-            <div className="w-16 h-1 bg-black mx-auto mt-4"></div>
-            <p className="mt-4 text-gray-500 max-w-2xl mx-auto">Trải nghiệm stylist ảo cá nhân của bạn, khám phá những bộ trang phục được tạo riêng cho phong cách của bạn.</p>
-          </div>
+          <div className="bg-pink-50 rounded-xl p-5 sm:p-8">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+              <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-widest m-0 bg-gradient-to-r from-pink-600 to-rose-500 bg-clip-text text-transparent">
+                Flash sale
+              </h2>
 
-          <div className="relative aspect-w-4 aspect-h-5 md:aspect-w-16 md:aspect-h-9 max-w-5xl mx-auto">
-            <img 
-              src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?q=80&w=1974&auto=format&fit=crop" 
-              alt="AI Stylist Look"
-              className="w-full h-full object-cover rounded-xl shadow-2xl"
-            />
-
-            {/* Product Hotspot 1: Áo khoác */}
-            <div className="absolute group" style={{ top: '25%', left: '40%' }}>
-              <div className="w-4 h-4 bg-white rounded-full cursor-pointer animate-pulse"></div>
-              <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 w-64 bg-white rounded-lg shadow-xl p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <Link to="/product/1" className="flex items-center gap-3">
-                  <img src={getImageUrl(aoKhoacData[0].image)} alt={aoKhoacData[0].name} className="w-16 h-20 object-cover rounded" />
-                  <div>
-                    <p className="font-bold text-sm text-gray-800">{aoKhoacData[0].name}</p>
-                    <p className="text-orange-600 font-semibold text-xs mt-1">{aoKhoacData[0].price.toLocaleString('vi-VN')}₫</p>
+              <div className="flex-1 min-w-0 overflow-hidden">
+                <div className="flex whitespace-nowrap">
+                  <div className="animate-marquee flex">
+                    {flashSaleNotices.concat(flashSaleNotices).map((notice, index) => (
+                      <span key={`notice-a-${index}`} className="px-6 text-sm font-semibold text-pink-600">
+                        {notice}
+                      </span>
+                    ))}
                   </div>
-                </Link>
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-t-white -mb-2"></div>
+                  <div className="animate-marquee flex" aria-hidden="true">
+                    {flashSaleNotices.concat(flashSaleNotices).map((notice, index) => (
+                      <span key={`notice-b-${index}`} className="px-6 text-sm font-semibold text-pink-600">
+                        {notice}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
+
+              <ul className="flex items-center justify-center gap-2">
+                {[
+                  { value: countdown.days, label: 'Ngày' },
+                  { value: countdown.hours, label: 'Giờ' },
+                  { value: countdown.minutes, label: 'Phút' },
+                  { value: countdown.seconds, label: 'Giây' },
+                ].map((item) => (
+                  <li key={item.label} className="flex flex-col items-center min-w-[52px] bg-white rounded-md px-3 py-2 shadow-sm">
+                    <strong className="text-lg font-bold text-pink-600 leading-none">{item.value}</strong>
+                    <small className="text-[10px] uppercase text-gray-500 mt-1">{item.label}</small>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Product Hotspot 2: Quần */}
-            <div className="absolute group" style={{ top: '70%', left: '55%' }}>
-              <div className="w-4 h-4 bg-white rounded-full cursor-pointer animate-pulse"></div>
-              <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 w-64 bg-white rounded-lg shadow-xl p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <Link to="/product/49" className="flex items-center gap-3">
-                  <img src={getImageUrl(quanJeanData[1].image)} alt={quanJeanData[1].name} className="w-16 h-20 object-cover rounded" />
-                  <div>
-                    <p className="font-bold text-sm text-gray-800">{quanJeanData[1].name}</p>
-                    <p className="text-orange-600 font-semibold text-xs mt-1">{quanJeanData[1].price.toLocaleString('vi-VN')}₫</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+              {flashSaleProducts.map((product) => (
+                <Link to={`/product/${product.id}`} key={product.id} className="group bg-white block rounded-lg overflow-hidden">
+                  <div className="relative overflow-hidden bg-gray-100 aspect-[3/4]">
+                    <img
+                      src={getImageUrl(product.image)}
+                      alt={product.name}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-3">
+                    <h3 className="text-gray-600 group-hover:text-pink-600 transition-colors text-sm font-medium mb-1 truncate">
+                      {product.name}
+                    </h3>
+                    <p className="text-pink-600 font-bold">
+                      {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+                    </p>
                   </div>
                 </Link>
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-t-white -mb-2"></div>
-              </div>
+              ))}
+            </div>
+
+            <div className="text-center mt-8">
+              <Link to="/sale" className="inline-block border border-pink-500 text-pink-600 px-6 py-2 font-semibold hover:bg-pink-500 hover:text-white transition-colors">
+                Xem tất cả »
+              </Link>
             </div>
           </div>
         </div>
       </section>
-
-      {/* ====== 4. NEW ARRIVALS / FLASH SALE ====== */}
+      
+ 
+      {/* ====== 4. BRAND ====== */}
+      <section className="py-10 px-4 sm:px-6 lg:px-8 container mx-auto">
+        <div className="mb-12 flex justify-between items-center">
+          <h2 className="text-3xl font-bold uppercase tracking-widest">THƯƠNG HIỆU NỔI BẬT</h2>
+          <a href="/products" >Xem tất cả »</a>
+        </div>
+      </section>
+        
+      {/* ====== 5.  Danh muc====== */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 container mx-auto bg-white">
         <div className="flex justify-between items-end mb-12">
           <div>
