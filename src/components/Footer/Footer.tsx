@@ -55,11 +55,11 @@ export default function Footer() {
                   <span>{t('footer.branch_tan_phu')}</span>
                 </p>
               </div>
-              <div className="flex items-center gap-4 text-pink-500">
-                <a href="#" className="hover:text-pink-700 transition-colors bg-white p-2 rounded-full shadow-sm"><BsFacebook size={18} /></a>
-                <a href="#" className="hover:text-pink-700 transition-colors bg-white p-2 rounded-full shadow-sm"><BsInstagram size={18} /></a>
-                <a href="#" className="hover:text-pink-700 transition-colors bg-white p-2 rounded-full shadow-sm"><BsTiktok size={18} /></a>
-                <a href="#" className="hover:text-pink-700 transition-colors bg-white p-2 rounded-full shadow-sm"><BsYoutube size={18} /></a>
+              <div className="flex items-center gap-3 text-pink-500">
+                <a href="#" className="hover:text-pink-700 transition-colors bg-white p-2 rounded-md border border-gray-200 shadow-sm"><BsFacebook size={16} /></a>
+                <a href="#" className="hover:text-pink-700 transition-colors bg-white p-2 rounded-md border border-gray-200 shadow-sm"><BsInstagram size={16} /></a>
+                <a href="#" className="hover:text-pink-700 transition-colors bg-white p-2 rounded-md border border-gray-200 shadow-sm"><BsTiktok size={16} /></a>
+                <a href="#" className="hover:text-pink-700 transition-colors bg-white p-2 rounded-md border border-gray-200 shadow-sm"><BsYoutube size={16} /></a>
               </div>
             </div>
 

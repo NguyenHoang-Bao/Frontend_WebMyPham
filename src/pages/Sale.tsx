@@ -2,9 +2,7 @@ import { Link } from 'react-router-dom';
 import { BsCartPlus } from 'react-icons/bs';
 
 // Import dữ liệu sản phẩm để giả lập sale
-import aoThunData from '../data/ao-thun.json';
-import quanShortData from '../data/quan-short.json';
-import nonData from '../data/non.json';
+import productsData from '../data/products.json';
 
 // 1. Định nghĩa Interface cho sản phẩm Sale
 interface SaleProduct {
@@ -17,19 +15,18 @@ interface SaleProduct {
 }
 
 // 2. Định nghĩa kiểu chuỗi (string) cho path
+const CLOUDINARY_BASE_URL = import.meta.env.VITE_CLOUDINARY_BASE_URL || 'https://res.cloudinary.com/hb22fnuq/image/upload';
 const getImageUrl = (path: string) => {
-  return new URL(path, import.meta.url).href;
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  return `${CLOUDINARY_BASE_URL}/${path}`;
 };
 
 // 3. Ép kiểu mảng này về cấu trúc SaleProduct[]
-const saleProducts: SaleProduct[] = [
-  { ...aoThunData[0], oldPrice: 350000 },
-  { ...quanShortData[0], oldPrice: 350000 },
-  { ...nonData[0], oldPrice: 250000 },
-  { ...aoThunData[1], oldPrice: 350000 },
-  { ...quanShortData[1], oldPrice: 350000 },
-  { ...nonData[1], oldPrice: 250000 },
-] as SaleProduct[];
+const saleProducts: SaleProduct[] = productsData.slice(0, 6).map(p => ({
+  ...p,
+  oldPrice: p.originalPrice ?? Math.round(p.price * 1.3),
+})) as SaleProduct[];
 
 export default function Sale() {
   return (

@@ -1,7 +1,18 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
-// Import đúng bộ Bootstrap Icons
-import heroBgImg from '../assets/img/About/pexels-badhon-35750806.jpg';
-import { BsGeoAlt, BsTelephone, BsEnvelope, BsClock, BsGlobe, BsFacebook, BsInstagram } from 'react-icons/bs';
+import { 
+  BsGeoAlt, 
+  BsTelephone, 
+  BsEnvelope, 
+  BsClock, 
+  BsGlobe, 
+  BsFacebook, 
+  BsInstagram,
+  BsTiktok,
+  BsCheckCircleFill
+} from 'react-icons/bs';
+
+// Ảnh nền banner mỹ phẩm sang trọng, phù hợp chủ đề làm đẹp
+const heroBgImg = 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=2070&q=80&auto=format&fit=crop';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,6 +23,8 @@ export default function Contact() {
     message: ''
   });
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   // Khai báo kiểu cho event thay đổi input/textarea
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,7 +34,11 @@ export default function Contact() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Form data:', formData);
-    alert('Đã gửi tin nhắn thành công!');
+    setIsSubmitted(true);
+  };
+
+  const handleReset = () => {
+    setIsSubmitted(false);
     setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
   };
 
@@ -29,20 +46,20 @@ export default function Contact() {
     <main className="bg-gray-50 text-gray-900">
       {/* 1. Hero Banner */}
       <section className="relative flex items-center justify-center text-center w-full min-h-[250px] h-[35vh]">
-        {/* Ảnh nền */}
+        {/* Ảnh nền mỹ phẩm */}
         <div
           className="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-no-repeat"
           style={{ backgroundImage: `url(${heroBgImg})` }}
         ></div>
-        {/* Lớp phủ đen (Overlay) */}
-        <div className="absolute top-0 left-0 w-full h-full bg-black/65"></div>
+        {/* Lớp phủ đen / hồng tối sang trọng */}
+        <div className="absolute top-0 left-0 w-full h-full bg-black/60"></div>
         {/* Nội dung chữ */}
         <div className="relative z-10 container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold uppercase mb-3 text-white tracking-[2px]">
+          <h1 className="text-3xl md:text-5xl font-bold uppercase mb-3 text-white tracking-[2px]">
             Liên Hệ Với Chúng Tôi
           </h1>
-          <p className="text-lg md:text-xl text-gray-100 tracking-[1px] opacity-90">
-            Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn
+          <p className="text-base md:text-xl text-rose-100 tracking-[1px] opacity-95">
+            Hoàng Bảo Cosmetics luôn sẵn sàng lắng nghe và đồng hành cùng làn da của bạn
           </p>
         </div>
       </section>
@@ -59,61 +76,79 @@ export default function Contact() {
               </h3>
 
               <div className="flex items-start mb-6">
-                <BsGeoAlt className="text-4xl mr-5 text-gray-900 shrink-0" />
+                <BsGeoAlt className="text-3xl md:text-4xl mr-5 text-pink-500 shrink-0" />
                 <div>
                   <h5 className="font-semibold text-lg text-gray-900 mb-1">Địa chỉ cửa hàng</h5>
-                  <p className="text-gray-500 mb-0">140 Lê Trọng Tấn, Tây Thạnh, Tân Phú, TP.HCM</p>
+                  <p className="text-gray-600 mb-0 leading-relaxed">
+                    140 Lê Trọng Tấn, Tây Thạnh, Tân Phú, TP.HCM
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start mb-6">
-                <BsTelephone className="text-4xl mr-5 text-gray-900 shrink-0" />
+                <BsTelephone className="text-3xl md:text-4xl mr-5 text-pink-500 shrink-0" />
                 <div>
-                  <h5 className="font-semibold text-lg text-gray-900 mb-1">Hotline</h5>
-                  <p className="text-gray-500 mb-0">0359 490 221</p>
+                  <h5 className="font-semibold text-lg text-gray-900 mb-1">Hotline & Zalo</h5>
+                  <p className="text-gray-600 mb-0 font-medium">
+                    <a href="tel:0359490221" className="hover:text-pink-600 transition-colors">
+                      0359 490 221
+                    </a>
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start mb-6">
-                <BsEnvelope className="text-4xl mr-5 text-gray-900 shrink-0" />
+                <BsEnvelope className="text-3xl md:text-4xl mr-5 text-pink-500 shrink-0" />
                 <div>
                   <h5 className="font-semibold text-lg text-gray-900 mb-1">Email</h5>
-                  <p className="text-gray-500 mb-0">hbao4142@gmail.com</p>
+                  <p className="text-gray-600 mb-0">
+                    <a href="mailto:hbao4142@gmail.com" className="hover:text-pink-600 transition-colors">
+                      hbao4142@gmail.com
+                    </a>
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start mb-6">
-                <BsClock className="text-4xl mr-5 text-gray-900 shrink-0" />
+                <BsClock className="text-3xl md:text-4xl mr-5 text-pink-500 shrink-0" />
                 <div>
                   <h5 className="font-semibold text-lg text-gray-900 mb-1">Giờ mở cửa</h5>
-                  <p className="text-gray-500 mb-0">Thứ 2 - Chủ Nhật: 9:00 - 22:00</p>
+                  <p className="text-gray-600 mb-0">Thứ 2 - Chủ Nhật: 9:00 - 22:00</p>
                 </div>
               </div>
 
               <div className="flex items-start mb-6">
-                <BsGlobe className="text-4xl mr-5 text-gray-900 shrink-0" />
+                <BsGlobe className="text-3xl md:text-4xl mr-5 text-pink-500 shrink-0" />
                 <div>
                   <h5 className="font-semibold text-lg text-gray-900 mb-4">Mạng Xã Hội</h5>
-                  <div className="flex gap-3">
+                  <div className="flex gap-2.5">
                     <a
                       href="https://facebook.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white rounded-full flex items-center justify-center w-10 h-10 transition-colors"
+                      className="border border-gray-300 text-gray-700 hover:border-pink-500 hover:bg-pink-500 hover:text-white rounded-md flex items-center justify-center w-9 h-9 transition-colors shadow-sm bg-white"
                       title="Facebook"
                     >
-                      <BsFacebook className="text-xl" />
+                      <BsFacebook className="text-base" />
                     </a>
                     <a
                       href="https://instagram.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white rounded-full flex items-center justify-center w-10 h-10 transition-colors"
+                      className="border border-gray-300 text-gray-700 hover:border-pink-500 hover:bg-pink-500 hover:text-white rounded-md flex items-center justify-center w-9 h-9 transition-colors shadow-sm bg-white"
                       title="Instagram"
                     >
-                      <BsInstagram className="text-xl" />
+                      <BsInstagram className="text-base" />
                     </a>
-                    
+                    <a
+                      href="https://tiktok.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="border border-gray-300 text-gray-700 hover:border-pink-500 hover:bg-pink-500 hover:text-white rounded-md flex items-center justify-center w-9 h-9 transition-colors shadow-sm bg-white"
+                      title="TikTok"
+                    >
+                      <BsTiktok className="text-base" />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -121,77 +156,111 @@ export default function Contact() {
 
             {/* Cột phải: Form */}
             <div className="lg:w-7/12">
-              <div className="p-6 md:p-10 rounded-xl border border-gray-200 bg-gray-100">
+              <div className="p-6 md:p-8 rounded-lg border border-gray-200 bg-white shadow-sm">
                 <h3 className="text-2xl font-bold mb-8 text-gray-900 uppercase">
                   Gửi tin nhắn cho chúng tôi
                 </h3>
-                <form onSubmit={handleSubmit}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="md:col-span-1">
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 bg-white"
-                        placeholder="Họ và Tên"
-                        required
-                      />
+
+                {isSubmitted ? (
+                  <div className="py-10 px-6 text-center rounded-lg bg-pink-50/50 border border-pink-200">
+                    <div className="w-12 h-12 bg-pink-500 text-white rounded-md flex items-center justify-center mx-auto mb-4 shadow-sm">
+                      <BsCheckCircleFill size={24} />
                     </div>
-                    <div className="md:col-span-1">
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 bg-white"
-                        placeholder="Email của bạn"
-                        required
-                      />
-                    </div>
-                    <div className="md:col-span-1">
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 bg-white"
-                        placeholder="Số điện thoại"
-                        required
-                      />
-                    </div>
-                    <div className="md:col-span-1">
-                      <input
-                        type="text"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 bg-white"
-                        placeholder="Tiêu đề"
-                        required
-                      />
-                    </div>
-                    <div className="col-span-1 md:col-span-2">
-                      <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        rows={5}
-                        className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 bg-white resize-none"
-                        placeholder="Nội dung lời nhắn..."
-                        required
-                      ></textarea>
-                    </div>
-                    <div className="col-span-1 md:col-span-2 mt-4">
-                      <button
-                        type="submit"
-                        className="w-full bg-gray-900 hover:bg-black text-white py-4 font-bold uppercase tracking-wider rounded transition-colors"
-                      >
-                        Gửi Tin Nhắn
-                      </button>
-                    </div>
+                    <h4 className="text-xl font-bold text-gray-900 mb-2">Đã gửi tin nhắn thành công!</h4>
+                    <p className="text-gray-600 text-sm max-w-md mx-auto mb-6 leading-relaxed">
+                      Cảm ơn bạn <span className="font-semibold text-gray-900">{formData.name}</span> đã liên hệ. Đội ngũ tư vấn của Hoàng Bảo Cosmetics sẽ liên hệ lại với bạn trong thời gian sớm nhất!
+                    </p>
+                    <button
+                      onClick={handleReset}
+                      className="inline-flex items-center justify-center px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-pink-600 bg-white border border-pink-300 rounded-md hover:bg-pink-50 transition-colors shadow-sm"
+                    >
+                      Gửi thêm tin nhắn khác
+                    </button>
                   </div>
-                </form>
+                ) : (
+                  <form onSubmit={handleSubmit}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="md:col-span-1">
+                        <label className="block text-xs font-semibold text-gray-700 uppercase mb-1.5">
+                          Họ và Tên <span className="text-pink-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 bg-white text-sm transition-colors"
+                          placeholder="Họ và Tên của bạn"
+                          required
+                        />
+                      </div>
+                      <div className="md:col-span-1">
+                        <label className="block text-xs font-semibold text-gray-700 uppercase mb-1.5">
+                          Email của bạn <span className="text-pink-500">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 bg-white text-sm transition-colors"
+                          placeholder="Email của bạn"
+                          required
+                        />
+                      </div>
+                      <div className="md:col-span-1">
+                        <label className="block text-xs font-semibold text-gray-700 uppercase mb-1.5">
+                          Số điện thoại <span className="text-pink-500">*</span>
+                        </label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 bg-white text-sm transition-colors"
+                          placeholder="Số điện thoại"
+                          required
+                        />
+                      </div>
+                      <div className="md:col-span-1">
+                        <label className="block text-xs font-semibold text-gray-700 uppercase mb-1.5">
+                          Tiêu đề <span className="text-pink-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="subject"
+                          value={formData.subject}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 bg-white text-sm transition-colors"
+                          placeholder="Tiêu đề (VD: Tư vấn da, đơn hàng...)"
+                          required
+                        />
+                      </div>
+                      <div className="col-span-1 md:col-span-2">
+                        <label className="block text-xs font-semibold text-gray-700 uppercase mb-1.5">
+                          Nội dung lời nhắn <span className="text-pink-500">*</span>
+                        </label>
+                        <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          rows={5}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 bg-white text-sm transition-colors resize-none"
+                          placeholder="Nội dung lời nhắn hoặc tình trạng làn da bạn cần tư vấn..."
+                          required
+                        ></textarea>
+                      </div>
+                      <div className="col-span-1 md:col-span-2 mt-2">
+                        <button
+                          type="submit"
+                          className="w-full bg-rose-500 hover:bg-rose-600 text-white py-3.5 font-bold uppercase tracking-wider rounded-lg transition-colors shadow-md shadow-rose-200 cursor-pointer"
+                        >
+                          Gửi Tin Nhắn
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
             
@@ -203,10 +272,11 @@ export default function Contact() {
       <section className="w-full">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.060360274028!2d106.62606661474933!3d10.806689092300438!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752be27d8b4f4d%3A0x92dcba2950430867!2zMTQwIEzDqiBUcuG7jW5nIFThuqVuLCBUw6J5IFRo4bqhbmgsIFTDom4gUGjDuiwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5oLCBWaWV0bmFt!5e0!3m2!1sen!2s!4v1684000000000!5m2!1sen!2s"
-          className="w-full h-[450px] border-0"
+          className="w-full h-[400px] md:h-[450px] border-0"
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
+          title="Bản đồ Hoàng Bảo Cosmetics"
         ></iframe>
       </section>
     </main>

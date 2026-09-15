@@ -7,19 +7,7 @@ import { CartContext } from '../context/CartContext';
 import Pagination from '../components/Pagination/Pagination';
 
 // Import Data
-import aoKhoacData from '../data/ao-khoac.json';
-import aoPoloData from '../data/ao-polo.json';
-import aoSoMiData from '../data/ao-so-mi.json';
-import aoThunData from '../data/ao-thun.json';
-import quanJeanData from '../data/quan-jean.json';
-import quanJoggerData from '../data/quan-jogger.json';
-import quanShortData from '../data/quan-short.json';
-import quanTayData from '../data/quan-tay.json';
-import baloData from '../data/balo.json';
-import tuiToteData from '../data/tui-tote.json';
-import kinhMatData from '../data/kinh-mat.json';
-import nonData from '../data/non.json';
-import trangSucData from '../data/trang-suc.json';
+import productsData from '../data/products.json';
 
 // 1. Định nghĩa Interface cho Product và Context
 interface Product {
@@ -38,38 +26,27 @@ interface CartContextType {
 }
 
 // 2. Khai báo kiểu string cho path
+const CLOUDINARY_BASE_URL = import.meta.env.VITE_CLOUDINARY_BASE_URL || 'https://res.cloudinary.com/hb22fnuq/image/upload';
 const getImageUrl = (path: string) => {
-  return new URL(path, import.meta.url).href;
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  return `${CLOUDINARY_BASE_URL}/${path}`;
 };
 
 // Gộp tất cả sản phẩm và ép kiểu mảng về Product[]
-const allProducts: Product[] = [
-  ...aoKhoacData.map(p => ({ ...p, category: 'ao-khoac' })),
-  ...aoPoloData.map(p => ({ ...p, category: 'ao-polo' })),
-  ...aoSoMiData.map(p => ({ ...p, category: 'ao-so-mi' })),
-  ...aoThunData.map(p => ({ ...p, category: 'ao-thun' })),
-  ...quanJeanData.map(p => ({ ...p, category: 'quan-jean' })),
-  ...quanJoggerData.map(p => ({ ...p, category: 'quan-jogger' })),
-  ...quanShortData.map(p => ({ ...p, category: 'quan-short' })),
-  ...quanTayData.map(p => ({ ...p, category: 'quan-tay' })),
-  ...baloData.map(p => ({ ...p, category: 'balo' })),
-  ...tuiToteData.map(p => ({ ...p, category: 'balo' })), // Gộp túi tote vào chung balo
-  ...kinhMatData.map(p => ({ ...p, category: 'kinh-mat' })),
-  ...nonData.map(p => ({ ...p, category: 'non' })),
-  ...trangSucData.map(p => ({ ...p, category: 'trang-suc' })),
-] as Product[];
+const allProducts: Product[] = productsData as Product[];
 
 // Định nghĩa Type cho các key của Accordion
-type AccordionSection = 'ao' | 'quan' | 'phuKien' | 'price';
+type AccordionSection = 'csd' | 'toc' | 'trangdiem' | 'price';
 
 export default function Products() {
   const [searchParams] = useSearchParams();
   const initialCategory = searchParams.get('cat') || 'all';
 
   const [openAccordion, setOpenAccordion] = useState<Record<AccordionSection, boolean>>({
-    ao: true,
-    quan: false,
-    phuKien: false,
+    csd: true,
+    toc: false,
+    trangdiem: false,
     price: true
   });
 
@@ -156,14 +133,14 @@ export default function Products() {
             </button>
 
             <div className="mb-8 border border-gray-200 bg-white rounded-md">
-              {/* Nhóm Áo */}
+              {/* Nhóm Chăm Sóc Da */}
               <div className="border-b border-gray-200">
-                <button onClick={() => toggleAccordion('ao')} className="w-full flex justify-between items-center py-3 px-4 font-bold uppercase text-gray-900">
-                  Áo {openAccordion.ao ? <BsChevronUp /> : <BsChevronDown />}
+                <button onClick={() => toggleAccordion('csd')} className="w-full flex justify-between items-center py-3 px-4 font-bold uppercase text-gray-900">
+                  Chăm Sóc Da {openAccordion.csd ? <BsChevronUp /> : <BsChevronDown />}
                 </button>
-                <div className={`overflow-hidden transition-all duration-300 ${openAccordion.ao ? 'max-h-60' : 'max-h-0'}`}>
+                <div className={`overflow-hidden transition-all duration-300 ${openAccordion.csd ? 'max-h-60' : 'max-h-0'}`}>
                   <ul className="px-4 pb-3 space-y-2">
-                    {['ao-khoac|Áo khoác', 'ao-thun|Áo thun', 'ao-polo|Áo polo', 'ao-so-mi|Áo sơ mi'].map(item => {
+                    {['Chăm sóc da|Chăm sóc da', 'Chăm sóc da & Cơ thể|Chăm sóc da & Cơ thể', 'Chăm sóc mắt|Chăm sóc mắt', 'Chăm sóc môi|Chăm sóc môi'].map(item => {
                       const [val, label] = item.split('|');
                       return (
                         <li key={val}>
@@ -180,14 +157,14 @@ export default function Products() {
                 </div>
               </div>
 
-              {/* Nhóm Quần */}
+              {/* Nhóm Tóc & Cơ Thể */}
               <div className="border-b border-gray-200">
-                <button onClick={() => toggleAccordion('quan')} className="w-full flex justify-between items-center py-3 px-4 font-bold uppercase text-gray-900">
-                  Quần {openAccordion.quan ? <BsChevronUp /> : <BsChevronDown />}
+                <button onClick={() => toggleAccordion('toc')} className="w-full flex justify-between items-center py-3 px-4 font-bold uppercase text-gray-900">
+                  Tóc & Cơ Thể {openAccordion.toc ? <BsChevronUp /> : <BsChevronDown />}
                 </button>
-                <div className={`overflow-hidden transition-all duration-300 ${openAccordion.quan ? 'max-h-60' : 'max-h-0'}`}>
+                <div className={`overflow-hidden transition-all duration-300 ${openAccordion.toc ? 'max-h-60' : 'max-h-0'}`}>
                   <ul className="px-4 pb-3 space-y-2">
-                    {['quan-jean|Jean', 'quan-jogger|Jogger', 'quan-short|Short', 'quan-tay|Tây'].map(item => {
+                    {['Chăm sóc tóc|Chăm sóc tóc', 'Chăm sóc cơ thể|Chăm sóc cơ thể', 'Chăm sóc cơ thể & Da nắng|Cơ thể & Da nắng', 'Chăm sóc cá nhân & Trẻ em|Cá nhân & Trẻ em'].map(item => {
                       const [val, label] = item.split('|');
                       return (
                         <li key={val}>
@@ -204,14 +181,14 @@ export default function Products() {
                 </div>
               </div>
 
-              {/* Nhóm Phụ Kiện */}
+              {/* Nhóm Trang Điểm & Hương */}
               <div>
-                <button onClick={() => toggleAccordion('phuKien')} className="w-full flex justify-between items-center py-3 px-4 font-bold uppercase text-gray-900">
-                  Phụ Kiện {openAccordion.phuKien ? <BsChevronUp /> : <BsChevronDown />}
+                <button onClick={() => toggleAccordion('trangdiem')} className="w-full flex justify-between items-center py-3 px-4 font-bold uppercase text-gray-900">
+                  Trang Điểm & Hương {openAccordion.trangdiem ? <BsChevronUp /> : <BsChevronDown />}
                 </button>
-                <div className={`overflow-hidden transition-all duration-300 ${openAccordion.phuKien ? 'max-h-60' : 'max-h-0'}`}>
+                <div className={`overflow-hidden transition-all duration-300 ${openAccordion.trangdiem ? 'max-h-60' : 'max-h-0'}`}>
                   <ul className="px-4 pb-3 space-y-2">
-                    {['balo|Balo', 'kinh-mat|Mắt kính', 'non|Mũ nón', 'trang-suc|Trang sức nam'].map(item => {
+                    {['Trang điểm|Trang điểm', 'Nước hoa|Nước hoa'].map(item => {
                       const [val, label] = item.split('|');
                       return (
                         <li key={val}>

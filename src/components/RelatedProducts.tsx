@@ -2,19 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // Import all product data
-import aoKhoacData from '../data/ao-khoac.json';
-import aoPoloData from '../data/ao-polo.json';
-import aoSoMiData from '../data/ao-so-mi.json';
-import aoThunData from '../data/ao-thun.json';
-import quanJeanData from '../data/quan-jean.json';
-import quanJoggerData from '../data/quan-jogger.json';
-import quanShortData from '../data/quan-short.json';
-import quanTayData from '../data/quan-tay.json';
-import baloData from '../data/balo.json';
-import tuiToteData from '../data/tui-tote.json';
-import kinhMatData from '../data/kinh-mat.json';
-import nonData from '../data/non.json';
-import trangSucData from '../data/trang-suc.json';
+import productsData from '../data/products.json';
 
 // 1. Định nghĩa Interface cho Product
 interface Product {
@@ -29,29 +17,19 @@ interface Product {
 }
 
 // 2. Gán kiểu Record<string, Product[]> để TypeScript hiểu cấu trúc Object
-const allProductsByCategory: Record<string, Product[]> = {
-  'ao-khoac': aoKhoacData,
-  'ao-polo': aoPoloData,
-  'ao-so-mi': aoSoMiData,
-  'ao-thun': aoThunData,
-  'quan-jean': quanJeanData,
-  'quan-jogger': quanJoggerData,
-  'quan-short': quanShortData,
-  'quan-tay': quanTayData,
-  'balo': [...baloData, ...tuiToteData], // Gộp balo và túi tote
-  'kinh-mat': kinhMatData,
-  'non': nonData,
-  'trang-suc': trangSucData,
-};
+const allProductsByCategory: Record<string, Product[]> = productsData.reduce((acc: Record<string, Product[]>, p) => {
+  const cat = (p as any).category as string;
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(p as unknown as Product);
+  return acc;
+}, {});
 
 // 3. Khai báo kiểu string cho path
+const CLOUDINARY_BASE_URL = import.meta.env.VITE_CLOUDINARY_BASE_URL || 'https://res.cloudinary.com/hb22fnuq/image/upload';
 const getImageUrl = (path: string) => {
-  try {
-    return new URL(path, import.meta.url).href;
-  } catch (e) {
-    console.error("Failed to load image", e);
-    return ''; // return a fallback image or empty string
-  }
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  return `${CLOUDINARY_BASE_URL}/${path}`;
 };
 
 // 4. Khai báo kiểu cho props của ProductCard

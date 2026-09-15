@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 @layer utilities {
   /* Định nghĩa animation chạy chữ từ phải sang trái */
   @keyframes marquee {

@@ -4,7 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import viTranslation from './locales/vi.json';
 import enTranslation from './locales/en.json';
-import zhTranslation from './locales/zh.json'; // Khai báo thêm dòng này
+import zhTranslation from './locales/zh.json'; 
 
 const resources = {
   vi: { translation: viTranslation },
