@@ -1,5 +1,6 @@
 import { useState, useMemo, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+import Breadcrumb, { BreadcrumbItem } from '../components/Breadcrumb';
 import { 
   Search, 
   BookOpen, 
@@ -318,17 +319,34 @@ export default function Tips() {
     }
   };
 
+  const breadcrumbItems = useMemo<BreadcrumbItem[]>(() => {
+    const items: BreadcrumbItem[] = [
+      { label: 'Trang chủ', link: '/' },
+    ];
+
+    const currentCat = categories.find(c => c.id === selectedCategory);
+
+    if (selectedCategory === 'all' || !currentCat) {
+      items.push({ label: 'Tin tức & Cẩm nang' });
+    } else {
+      items.push({ 
+        label: 'Tin tức & Cẩm nang', 
+        link: '/tips',
+        onClick: () => setSelectedCategory('all')
+      });
+      items.push({ label: currentCat.label });
+    }
+
+    return items;
+  }, [selectedCategory, categories]);
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
       
       {/* 1. Header Banner */}
       <section className="bg-white border-b border-gray-200 py-10 md:py-14">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl text-center">
-          <nav className="text-xs text-gray-500 mb-3 flex items-center justify-center gap-1.5">
-            <Link to="/" className="hover:text-rose-600 transition-colors">Trang chủ</Link>
-            <span>/</span>
-            <span className="text-gray-900 font-medium">Tin tức & Cẩm nang</span>
-          </nav>
+          <Breadcrumb items={breadcrumbItems} className="justify-center" />
           
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-rose-50 text-rose-600 text-xs font-semibold uppercase tracking-wider mb-3 border border-rose-200">
             <Sparkles size={14} /> Chuyên Trang Làm Đẹp Hoàng Bảo
@@ -620,6 +638,15 @@ export default function Tips() {
 
             {/* Modal Body (Scrollable) */}
             <div className="p-6 md:p-8 overflow-y-auto space-y-6 text-gray-800">
+              <Breadcrumb 
+                items={[
+                  { label: 'Trang chủ', link: '/' },
+                  { label: 'Tin tức & Cẩm nang', link: '/tips', onClick: () => setActiveArticle(null) },
+                  { label: activeArticle.category },
+                  { label: activeArticle.title }
+                ]}
+                className="mb-2"
+              />
               <div>
                 <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
                   <span className="flex items-center gap-1"><Calendar size={13} /> {activeArticle.date}</span>

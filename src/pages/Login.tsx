@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import bgImg from '../assets/img/About/pexels-badhon-35750806.jpg';
-import { X } from 'lucide-react';
+import { X, Loader2 } from 'lucide-react';
+import AuthBanner from '../components/Auth/AuthBanner';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -9,43 +9,37 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
-  // 1. Thêm kiểu ChangeEvent cho sự kiện thay đổi input
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (error) setError('');
   };
 
-  // 2. Thêm kiểu FormEvent cho sự kiện submit
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      // Thay đổi URL thành endpoint API của bạn
       const response = await fetch('http://localhost:8080/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        // Backend của bạn có thể mong đợi 'phoneNumber' thay vì 'email'
         body: JSON.stringify({ phoneNumber: formData.email, password: formData.password }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        // Ném lỗi nếu response không thành công (status 4xx, 5xx)
         throw new Error(data.message || 'Email hoặc mật khẩu không chính xác.');
       }
 
-      // Lưu token và thông tin người dùng vào localStorage
       localStorage.setItem('token', data.token);
       localStorage.setItem('currentUser', JSON.stringify(data.user));
 
       alert('Đăng nhập thành công!');
-      navigate('/'); // Chuyển hướng về trang chủ
+      navigate('/'); 
     } catch (err) {
-      // 3. Xử lý an toàn biến err kiểu unknown
       if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -57,43 +51,39 @@ export default function Login() {
   };
 
   return (
-    <div className="flex h-screen bg-neutral-900">
-      {/* Nửa Trái: Background Image */}
-      <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${bgImg})` }}
-        ></div>
-        <div className="absolute inset-0 bg-black/50"></div>
-        <h1 className="relative z-10 text-5xl font-extrabold text-white tracking-[8px] uppercase text-center px-4">
-          HOÀNG BẢO SHOP
-        </h1>
-      </div>
+    <div className="flex h-screen bg-white">
+      {/* Nửa Trái: Banner 1 hình ảnh */}
+      <AuthBanner />
 
-      {/* Nửa Phải: Form */}
+      {/* Nửa Phải: Form Đăng Nhập */}
       <div className="w-full lg:w-1/2 flex items-center justify-center relative py-12 px-4">
-        <Link to="/" className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors">
+        <Link to="/" className="absolute top-6 right-6 text-gray-400 hover:text-rose-600 transition-colors">
           <X size={28} />
         </Link>
 
         <div className="w-full max-w-md">
-          <h2 className="text-3xl font-bold text-white uppercase mb-8">Đăng Nhập</h2>
+          <h2 className="text-3xl font-bold text-gray-900 uppercase mb-8">Đăng Nhập</h2>
           
-          {error && <div className="text-red-500 mb-4 text-sm">{error}</div>}
+          {error && <div className="text-red-500 mb-4 text-sm font-medium">{error}</div>}
 
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="relative">
               <input
-                type="email"
-                name="email" // Giữ nguyên name để handleChange hoạt động
+                type="text"
+                name="email" 
                 id="login-email"
-                className="peer w-full bg-transparent border-0 border-b border-gray-500 text-white focus:outline-none focus:border-orange-500 focus:ring-0 placeholder-transparent py-2 transition-colors"
+                className="peer w-full bg-transparent border-0 border-b border-gray-300 text-gray-900 focus:outline-none focus:border-rose-500 focus:ring-0 placeholder-transparent py-2 transition-colors"
                 placeholder="Số điện thoại / Email"
                 value={formData.email}
                 onChange={handleChange}
                 required
               />
-              <label htmlFor="login-email" className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-white">Số điện thoại / Email</label>
+              <label 
+                htmlFor="login-email" 
+                className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-rose-600"
+              >
+                Số điện thoại / Email
+              </label>
             </div>
 
             <div className="relative">
@@ -101,25 +91,40 @@ export default function Login() {
                 type="password"
                 name="password"
                 id="login-password"
-                className="peer w-full bg-transparent border-0 border-b border-gray-500 text-white focus:outline-none focus:border-orange-500 focus:ring-0 placeholder-transparent py-2 transition-colors"
+                className="peer w-full bg-transparent border-0 border-b border-gray-300 text-gray-900 focus:outline-none focus:border-rose-500 focus:ring-0 placeholder-transparent py-2 transition-colors"
                 placeholder="Mật khẩu"
                 value={formData.password}
                 onChange={handleChange}
                 required
               />
-              <label htmlFor="login-password" className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-white">Mật khẩu</label>
+              <label 
+                htmlFor="login-password" 
+                className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-rose-600"
+              >
+                Mật khẩu
+              </label>
             </div>
 
             <div className="text-right">
-              <Link to="/forgot-password" className="text-sm text-gray-400 hover:text-white transition-colors">Quên mật khẩu?</Link>
+              <Link to="/forgot-password" className="text-sm text-gray-500 hover:text-rose-600 transition-colors">
+                Quên mật khẩu?
+              </Link>
             </div>
 
-            <button type="submit" disabled={isLoading} className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-800 text-white font-bold py-3 uppercase tracking-wider transition-colors">
+            <button 
+              type="submit" 
+              disabled={isLoading} 
+              className="w-full bg-rose-500 hover:bg-rose-600 disabled:bg-rose-300 text-white font-bold py-3 uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-2"
+            >
+              {isLoading && <Loader2 className="animate-spin" size={20} />}
               {isLoading ? 'Đang xử lý...' : 'Đăng Nhập'}
             </button>
 
-            <div className="text-center mt-6 text-sm text-gray-400">
-              Chưa có tài khoản? <Link to="/register" className="text-orange-500 font-semibold hover:text-white transition-colors ml-1">Đăng ký ngay</Link>
+            <div className="text-center mt-6 text-sm text-gray-500">
+              Chưa có tài khoản?{' '}
+              <Link to="/register" className="text-rose-500 font-semibold hover:text-rose-700 transition-colors ml-1">
+                Đăng ký ngay
+              </Link>
             </div>
           </form>
         </div>

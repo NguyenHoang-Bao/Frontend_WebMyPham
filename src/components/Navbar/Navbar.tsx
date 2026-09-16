@@ -1,9 +1,11 @@
-import { useState, useEffect, useContext, FormEvent } from 'react';
-import { Menu, Search, User, ShoppingBag, Heart, X, ChevronDown, LogOut } from 'lucide-react';
+import { useState, useEffect, useContext } from 'react';
+import { Menu, Search, User, ShoppingBag, Heart, X, ChevronDown, LogOut, ChevronRight } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext';
 import logo from '../../assets/img/Navbar/logo.png';
 import { useTranslation } from 'react-i18next';
+
+import NavbarMobileMenu from './NavbarMobileMenu';
 
 interface CartItem { quantity: number; [key: string]: any; }
 interface UserData { name: string; [key: string]: any; }
@@ -54,7 +56,7 @@ export default function Navbar() {
     navigate('/');
   };
 
-  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
@@ -66,19 +68,17 @@ export default function Navbar() {
   const isActive = (path: string) => location.pathname === path;
 
   const navLinks = [
-    { to: '/',               label: t('navbar.home') },
-    { to: '/products',       label: t('navbar.products') },
-    { to: '/tips',           label: t('navbar.tips') },
+    { to: '/',                 label: t('navbar.home') },
+    { to: '/products',         label: t('navbar.products') },
+    { to: '/tips',             label: t('navbar.tips') },
     { to: '/order-tracking', label: t('navbar.order_tracking') },
-    { to: '/contact',        label: t('navbar.contact') },
+    { to: '/contact',          label: t('navbar.contact') },
   ];
 
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/90 backdrop-blur-md shadow-md shadow-rose-50'
-          : 'bg-white shadow-sm shadow-gray-100'
+        isScrolled ? 'bg-white/90 backdrop-blur-md shadow-md shadow-rose-50' : 'bg-white shadow-sm shadow-gray-100'
       }`}
     >
       {/* ── MAIN HEADER ── */}
@@ -119,7 +119,6 @@ export default function Navbar() {
 
             {/* Icons & Actions */}
             <div className="flex items-center gap-3 md:gap-4">
-
               {/* Tài khoản (Desktop) */}
               {currentUser ? (
                 <div className="relative group hidden lg:block z-50">
@@ -149,13 +148,9 @@ export default function Navbar() {
                 </div>
               ) : (
                 <div className="hidden lg:flex items-center gap-3 text-sm font-semibold">
-                  <Link to="/login" className="text-gray-700 hover:text-rose-600 transition-colors px-1">
-                    {t('navbar.login')}
-                  </Link>
+                  <Link to="/login" className="text-gray-700 hover:text-rose-600 transition-colors px-1">{t('navbar.login')}</Link>
                   <span className="text-gray-300">|</span>
-                  <Link to="/register" className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-md text-xs font-semibold tracking-wide transition-colors shadow-sm">
-                    {t('navbar.register')}
-                  </Link>
+                  <Link to="/register" className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-md text-xs font-semibold tracking-wide transition-colors shadow-sm">{t('navbar.register')}</Link>
                 </div>
               )}
 
@@ -201,7 +196,6 @@ export default function Navbar() {
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
 
@@ -227,155 +221,148 @@ export default function Navbar() {
       <nav className="hidden lg:block bg-white border-b border-gray-100">
         <div className="container mx-auto px-8">
           <ul className="flex items-center justify-center gap-8 text-sm font-semibold text-gray-700">
-
             <li>
               <Link to="/" className={`block py-3.5 border-b-2 transition-colors ${isActive('/') ? 'border-rose-500 text-rose-500' : 'border-transparent text-gray-700 hover:text-rose-500'}`}>
                 {t('navbar.home')}
               </Link>
             </li>
-
             <li>
               <Link to="/sale" className={`block py-3.5 border-b-2 transition-colors text-rose-500 font-bold ${isActive('/sale') ? 'border-rose-500' : 'border-transparent hover:text-rose-600'}`}>
-                ✨ {t('navbar.sale')}
+                {t('navbar.sale')}
               </Link>
             </li>
-
-            <li>
-              <Link to="/products" className={`block py-3.5 border-b-2 transition-colors ${isActive('/products') ? 'border-rose-500 text-rose-500' : 'border-transparent text-gray-700 hover:text-rose-500'}`}>
-                {t('navbar.products')}
+            <li className="relative group py-3.5">
+              <Link 
+                to="/products" 
+                className={`flex items-center gap-1 border-b-2 transition-colors ${
+                  isActive('/products') ? 'border-rose-500 text-rose-500 font-bold' : 'border-transparent text-gray-700 hover:text-rose-500'
+                }`}
+              >
+                <span>{t('navbar.products')}</span>
+                <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-150" />
               </Link>
-            </li>
 
+              {/* Submenu cấp 1 dạng text tối giản */}
+              <div className="absolute top-full left-0 w-60 bg-white border border-gray-200 rounded-md shadow-lg py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+                <div className="absolute -top-3 left-0 right-0 h-3 bg-transparent"></div>
+
+                {/* 1. Chăm sóc da */}
+                <div className="relative group/sub">
+                  <Link
+                    to="/products?cat=Chăm sóc da"
+                    className="flex items-center justify-between px-4 py-2.5 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+                  >
+                    <span>Chăm sóc da</span>
+                    <ChevronRight size={14} className="text-gray-400 group-hover/sub:text-rose-500" />
+                  </Link>
+
+                  {/* Submenu cấp 2 */}
+                  <div className="absolute top-0 left-full w-56 bg-white border border-gray-200 rounded-md shadow-lg py-1.5 ml-0.5 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-150">
+                    <Link to="/products?cat=Chăm sóc da" className="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                      Chăm sóc da mặt
+                    </Link>
+                    <Link to="/products?cat=Chăm sóc da & Cơ thể" className="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                      Chăm sóc da & Cơ thể
+                    </Link>
+                    <Link to="/products?cat=Chăm sóc mắt" className="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                      Chăm sóc mắt
+                    </Link>
+                    <Link to="/products?cat=Chăm sóc môi" className="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                      Chăm sóc môi
+                    </Link>
+                  </div>
+                </div>
+
+                {/* 2. Tóc & Cơ thể */}
+                <div className="relative group/sub">
+                  <Link
+                    to="/products?cat=Chăm sóc tóc"
+                    className="flex items-center justify-between px-4 py-2.5 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+                  >
+                    <span>Tóc & Cơ thể</span>
+                    <ChevronRight size={14} className="text-gray-400 group-hover/sub:text-rose-500" />
+                  </Link>
+
+                  {/* Submenu cấp 2 */}
+                  <div className="absolute top-0 left-full w-56 bg-white border border-gray-200 rounded-md shadow-lg py-1.5 ml-0.5 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-150">
+                    <Link to="/products?cat=Chăm sóc tóc" className="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                      Chăm sóc tóc
+                    </Link>
+                    <Link to="/products?cat=Chăm sóc cơ thể" className="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                      Chăm sóc cơ thể
+                    </Link>
+                    <Link to="/products?cat=Chăm sóc cá nhân & Trẻ em" className="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                      Cá nhân & Trẻ em
+                    </Link>
+                  </div>
+                </div>
+
+                {/* 3. Trang điểm & Mùi hương */}
+                <div className="relative group/sub">
+                  <Link
+                    to="/products?cat=Trang điểm"
+                    className="flex items-center justify-between px-4 py-2.5 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+                  >
+                    <span>Trang điểm & Mùi hương</span>
+                    <ChevronRight size={14} className="text-gray-400 group-hover/sub:text-rose-500" />
+                  </Link>
+
+                  {/* Submenu cấp 2 */}
+                  <div className="absolute top-0 left-full w-56 bg-white border border-gray-200 rounded-md shadow-lg py-1.5 ml-0.5 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-150">
+                    <Link to="/products?cat=Trang điểm" className="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                      Trang điểm
+                    </Link>
+                    <Link to="/products?cat=Nước hoa" className="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                      Nước hoa
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="border-t border-gray-100 my-1"></div>
+
+                <Link
+                  to="/products"
+                  className="block px-4 py-2 text-sm font-semibold text-rose-500 hover:bg-rose-50 transition-colors"
+                >
+                  Tất cả sản phẩm
+                </Link>
+              </div>
+            </li>
             <li>
               <Link to="/tips" className={`block py-3.5 border-b-2 transition-colors ${isActive('/tips') ? 'border-rose-500 text-rose-500' : 'border-transparent text-gray-700 hover:text-rose-500'}`}>
                 {t('navbar.tips')}
               </Link>
             </li>
-
             <li>
-              <Link
-                to="/order-tracking"
-                className={`block py-3.5 border-b-2 transition-colors ${
-                  isActive('/order-tracking')
-                    ? 'border-rose-500 text-rose-500 font-semibold'
-                    : 'border-transparent text-gray-700 hover:text-rose-500'
-                }`}
-              >
+              <Link to="/order-tracking" className={`block py-3.5 border-b-2 transition-colors ${isActive('/order-tracking') ? 'border-rose-500 text-rose-500 font-semibold' : 'border-transparent text-gray-700 hover:text-rose-500'}`}>
                 {t('navbar.order_tracking')}
               </Link>
             </li>
-
             <li>
               <Link to="/contact" className="block py-3.5 border-b-2 border-transparent text-gray-700 hover:text-rose-500 transition-colors">
                 {t('navbar.contact')}
               </Link>
             </li>
-
           </ul>
         </div>
       </nav>
 
-      {/* ── MOBILE MENU (SLIDE FROM LEFT) ── */}
-      <div
-        className={`fixed inset-y-0 left-0 w-80 bg-white z-50 lg:hidden overflow-y-auto shadow-2xl shadow-rose-50 transition-transform duration-300 ease-in-out ${
-          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        {/* Mobile menu header */}
-        <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-pink-500 to-rose-400">
-          <img src={logo} alt="logo" className="w-28 h-auto object-contain brightness-0 invert" />
-          <button onClick={() => setIsMobileMenuOpen(false)} className="text-white hover:text-pink-100 transition-colors">
-            <X size={22} />
-          </button>
-        </div>
-
-        <div className="p-4 space-y-1 pb-20">
-
-          {navLinks.map((link, i) => (
-            <Link key={i} to={link.to}
-              className={`flex items-center py-2.5 px-3.5 rounded-md text-sm font-semibold transition-colors ${
-                isActive(link.to) ? 'bg-rose-50 text-rose-500' : 'text-gray-700 hover:bg-rose-50 hover:text-rose-500'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-
-          <Link to="/sale" className="flex items-center py-2.5 px-3.5 rounded-md text-sm font-bold text-rose-500 bg-rose-50">
-            ✨ {t('navbar.sale')}
-          </Link>
-
-          {/* Ngôn ngữ Mobile */}
-          <div className="pt-3 border-t border-pink-100 mt-3">
-            <button
-              onClick={() => setOpenDropdown(openDropdown === 'lang' ? null : 'lang')}
-              className="w-full flex items-center justify-between py-2.5 px-3.5 rounded-md bg-gray-50 text-gray-700 text-sm font-medium"
-            >
-              <div className="flex items-center gap-2">
-                <img src={activeLang.flag} alt={activeLang.label} className="w-5 h-3.5 object-cover rounded-sm" />
-                {activeLang.name}
-              </div>
-              <ChevronDown size={15} className={`transition-transform duration-300 ${openDropdown === 'lang' ? 'rotate-180' : ''}`} />
-            </button>
-            <div className={`overflow-hidden transition-all duration-300 ${openDropdown === 'lang' ? 'max-h-48 mt-1' : 'max-h-0'}`}>
-              <ul className="px-2 py-1 space-y-0.5 bg-white rounded-md border border-gray-200 mt-1">
-                {languages.map(lang => (
-                  <li key={lang.code}>
-                    <button
-                      onClick={() => { changeLanguage(lang.code); setOpenDropdown(null); setIsMobileMenuOpen(false); }}
-                      className={`w-full flex items-center gap-3 py-2 px-3 rounded-md transition-colors text-sm ${
-                        currentLang.startsWith(lang.code) ? 'text-rose-500 font-bold bg-rose-50' : 'text-gray-600 hover:text-rose-500 hover:bg-rose-50'
-                      }`}
-                    >
-                      <img src={lang.flag} alt={lang.name} className="w-6 h-4 object-cover rounded-sm" />
-                      <span>{lang.name}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Account Mobile */}
-          <div className="border-t border-pink-100 pt-4 mt-3">
-            {currentUser ? (
-              <>
-                <div className="flex items-center gap-3 py-2.5 px-3.5 bg-rose-50/70 border border-rose-100 rounded-md mb-2">
-                  <div className="w-8 h-8 rounded-md bg-rose-100 flex items-center justify-center text-rose-500">
-                    <User size={16} />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-500">Xin chào,</p>
-                    <p className="font-bold text-gray-800 text-sm">{currentUser.name}</p>
-                  </div>
-                </div>
-                <Link to="/profile" className="flex items-center py-2.5 px-3.5 rounded-md text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition-colors text-sm">
-                  {t('navbar.my_account')}
-                </Link>
-                <button onClick={handleLogout} className="w-full text-left flex items-center gap-2.5 py-2.5 px-3.5 text-red-500 hover:bg-red-50 rounded-md transition-colors text-sm">
-                  <LogOut size={16} /> {t('navbar.logout')}
-                </button>
-              </>
-            ) : (
-              <div className="flex flex-col gap-2 px-1">
-                <Link to="/login" className="text-center py-2.5 rounded-md border border-rose-300 text-rose-600 font-semibold hover:bg-rose-50 transition-colors text-sm">
-                  {t('navbar.login')}
-                </Link>
-                <Link to="/register" className="text-center py-2.5 rounded-md bg-rose-500 text-white font-semibold hover:bg-rose-600 transition-colors text-sm shadow-sm">
-                  {t('navbar.register')}
-                </Link>
-              </div>
-            )}
-          </div>
-
-        </div>
-      </div>
-
-      {/* Overlay backdrop (mobile) */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden" onClick={() => setIsMobileMenuOpen(false)} />
-      )}
-
+      {/* ── MOBILE MENU COMPONENT ── */}
+      <NavbarMobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        openDropdown={openDropdown}
+        setOpenDropdown={setOpenDropdown}
+        currentUser={currentUser}
+        handleLogout={handleLogout}
+        activeLang={activeLang}
+        languages={languages}
+        currentLang={currentLang}
+        changeLanguage={changeLanguage}
+        isActive={isActive}
+        navLinks={navLinks}
+        t={t}
+      />
     </header>
   );
 }

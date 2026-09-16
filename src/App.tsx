@@ -60,7 +60,7 @@ function App() {
         <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2">
           <a
             href="tel:0359490221"
-            className="bg-green-500 text-white w-10 h-10 rounded-md flex items-center justify-center shadow-md hover:bg-green-600 transition-colors"
+            className="bg-green-500 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md hover:bg-green-600 transition-colors"
             aria-label="Call us"
           >
             <BsTelephone size={18} />
@@ -69,7 +69,7 @@ function App() {
             href="https://facebook.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-blue-600 text-white w-10 h-10 rounded-md flex items-center justify-center shadow-md hover:bg-blue-700 transition-colors"
+            className="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md hover:bg-blue-700 transition-colors"
             aria-label="Facebook"
           >
             <BsFacebook size={18} />
@@ -78,7 +78,7 @@ function App() {
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 text-white w-10 h-10 rounded-md flex items-center justify-center shadow-md hover:opacity-90 transition-opacity"
+            className="bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md hover:opacity-90 transition-opacity"
             aria-label="Instagram"
           >
             <BsInstagram size={18} />
