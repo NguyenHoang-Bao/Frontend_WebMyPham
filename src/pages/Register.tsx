@@ -78,53 +78,55 @@ export default function Register() {
   ];
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex h-screen w-full overflow-hidden bg-white">
       {/* Nửa Trái: Banner 1 hình ảnh */}
       <AuthBanner />
 
       {/* Nửa Phải: Form Đăng Ký */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center relative py-12 px-4 overflow-y-auto">
+      <div className="w-full lg:w-1/2 flex items-center justify-center relative py-6 px-6 sm:px-10 overflow-hidden h-full">
         <Link to="/" className="absolute top-6 right-6 text-gray-400 hover:text-rose-600 transition-colors">
           <X size={28} />
         </Link>
 
-        <div className="w-full max-w-md my-auto">
-          <h2 className="text-3xl font-bold text-gray-900 uppercase mb-8">Đăng Ký</h2>
+        <div className="w-full max-w-lg my-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase mb-4 sm:mb-6">Đăng Ký</h2>
           
-          {error && <div className="text-red-500 mb-4 text-sm font-medium">{error}</div>}
+          {error && <div className="text-red-500 mb-3 text-xs sm:text-sm font-medium">{error}</div>}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {formFields.map(({ key, label, type }) => (
-              <div className="relative" key={key}>
-                <input
-                  type={type}
-                  name={key}
-                  id={`register-${key}`}
-                  className="peer w-full bg-transparent border-0 border-b border-gray-300 text-gray-900 focus:outline-none focus:border-rose-500 focus:ring-0 placeholder-transparent py-2 transition-colors"
-                  placeholder={label}
-                  value={formData[key]}
-                  onChange={handleChange}
-                  required
-                />
-                <label 
-                  htmlFor={`register-${key}`}
-                  className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-rose-600"
-                >
-                  {label}
-                </label>
-              </div>
-            ))}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+              {formFields.map(({ key, label, type }) => (
+                <div className="relative" key={key}>
+                  <input
+                    type={type}
+                    name={key}
+                    id={`register-${key}`}
+                    className="peer w-full bg-transparent border-0 border-b border-gray-300 text-gray-900 focus:outline-none focus:border-rose-500 focus:ring-0 placeholder-transparent py-1.5 text-sm transition-colors"
+                    placeholder={label}
+                    value={formData[key]}
+                    onChange={handleChange}
+                    required
+                  />
+                  <label 
+                    htmlFor={`register-${key}`}
+                    className="absolute left-0 -top-3.5 text-gray-500 text-xs transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-1.5 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-rose-600"
+                  >
+                    {label}
+                  </label>
+                </div>
+              ))}
+            </div>
 
             <button 
               type="submit" 
               disabled={isLoading} 
-              className="w-full bg-rose-500 hover:bg-rose-600 disabled:bg-rose-300 text-white font-bold py-3 uppercase tracking-wider transition-colors mt-8 flex justify-center items-center gap-2 cursor-pointer"
+              className="w-full bg-rose-500 hover:bg-rose-600 disabled:bg-rose-300 text-white font-bold py-2.5 uppercase tracking-wider transition-colors mt-6 flex justify-center items-center gap-2 cursor-pointer text-sm"
             >
-              {isLoading && <Loader2 className="animate-spin" size={20} />}
+              {isLoading && <Loader2 className="animate-spin" size={18} />}
               {isLoading ? 'Đang xử lý...' : 'Đăng Ký'}
             </button>
 
-            <div className="text-center mt-6 text-sm text-gray-500">
+            <div className="text-center mt-3 text-xs sm:text-sm text-gray-500">
               Đã có tài khoản?{' '}
               <Link to="/login" className="text-rose-500 font-semibold hover:text-rose-700 transition-colors ml-1">
                 Đăng nhập

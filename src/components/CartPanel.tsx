@@ -26,14 +26,21 @@ interface CartContextType {
   clearCart: () => void;
 }
 
-// 3. Khai báo kiểu string cho tham số path
+const CLOUDINARY_BASE_URL = 'https://res.cloudinary.com/hb22fnuq/image/upload';
+const DEFAULT_PLACEHOLDER = 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80&auto=format&fit=crop';
+
 const getImageUrl = (path: string) => {
+  if (!path) return DEFAULT_PLACEHOLDER;
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  if (path.includes('assets/')) {
     try {
-        return new URL(path, import.meta.url).href;
-    } catch (e) {
-        console.error("Failed to load image for cart", e, path);
-        return '';
+      return new URL(path, import.meta.url).href;
+    } catch {
+      return DEFAULT_PLACEHOLDER;
     }
+  }
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${CLOUDINARY_BASE_URL}/${cleanPath}`;
 };
 
 export default function CartPanel() {
@@ -72,7 +79,16 @@ export default function CartPanel() {
                     {cart.map(item => (
                         <div key={item.cartItemId} className="flex gap-4">
                         <div className="w-24 h-32 bg-gray-100 rounded overflow-hidden flex-shrink-0">
-                            <img src={getImageUrl(item.image)} alt={item.name} className="w-full h-full object-cover" />
+                            <img 
+                              src={getImageUrl(item.image)} 
+                              alt={item.name} 
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                const target = e.currentTarget;
+                                target.onerror = null;
+                                target.src = DEFAULT_PLACEHOLDER;
+                              }}
+                            />
                         </div>
                         <div className="flex-grow flex flex-col">
                             <h3 className="font-bold text-sm leading-tight">{item.name}</h3>

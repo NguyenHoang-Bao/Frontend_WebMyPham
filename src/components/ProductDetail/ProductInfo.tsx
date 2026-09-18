@@ -56,9 +56,12 @@ export default function ProductInfo({ product, discountPercent, onAddToCart, onB
       {/* Khung Giá */}
       <div className="bg-rose-50/40 p-4 rounded-xl border border-rose-100 mb-6 flex flex-wrap items-baseline gap-3">
         <span className="text-3xl font-extrabold text-rose-600">{product.price.toLocaleString('vi-VN')}₫</span>
-        {product.originalPrice && product.originalPrice > product.price && (
-          <span className="text-base text-gray-400 line-through">{product.originalPrice.toLocaleString('vi-VN')}₫</span>
-        )}
+        <span className="text-base text-gray-400 line-through">
+          {(product.originalPrice && product.originalPrice > product.price 
+            ? product.originalPrice 
+            : Math.round((product.price * 1.25) / 1000) * 1000
+          ).toLocaleString('vi-VN')}₫
+        </span>
         {discountPercent > 0 && (
           <span className="text-xs font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">Tiết kiệm {discountPercent}%</span>
         )}

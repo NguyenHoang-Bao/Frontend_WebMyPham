@@ -51,22 +51,22 @@ export default function Login() {
   };
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex h-screen w-full overflow-hidden bg-white">
       {/* Nửa Trái: Banner 1 hình ảnh */}
       <AuthBanner />
 
       {/* Nửa Phải: Form Đăng Nhập */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center relative py-12 px-4">
+      <div className="w-full lg:w-1/2 flex items-center justify-center relative py-6 px-6 sm:px-10 overflow-hidden h-full">
         <Link to="/" className="absolute top-6 right-6 text-gray-400 hover:text-rose-600 transition-colors">
           <X size={28} />
         </Link>
 
-        <div className="w-full max-w-md">
-          <h2 className="text-3xl font-bold text-gray-900 uppercase mb-8">Đăng Nhập</h2>
+        <div className="w-full max-w-md my-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase mb-6">Đăng Nhập</h2>
           
           {error && <div className="text-red-500 mb-4 text-sm font-medium">{error}</div>}
 
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="relative">
               <input
                 type="text"

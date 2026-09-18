@@ -4,6 +4,23 @@ import { Search, ShoppingBag, LogIn, Phone, Calendar, MapPin, AlertCircle } from
 import { Order, getDefaultOrders } from './types';
 import OrderStatusBadge from './OrderStatusBadge';
 
+const CLOUDINARY_BASE_URL = 'https://res.cloudinary.com/hb22fnuq/image/upload';
+const DEFAULT_PLACEHOLDER = 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80&auto=format&fit=crop';
+
+const getImageUrl = (path?: string) => {
+  if (!path) return DEFAULT_PLACEHOLDER;
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  if (path.includes('assets/')) {
+    try {
+      return new URL(path, import.meta.url).href;
+    } catch {
+      return DEFAULT_PLACEHOLDER;
+    }
+  }
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${CLOUDINARY_BASE_URL}/${cleanPath}`;
+};
+
 export default function GuestTracking() {
   const [searchCode, setSearchCode] = useState('');
   const [searchPhone, setSearchPhone] = useState('');
@@ -134,7 +151,18 @@ export default function GuestTracking() {
                 {searchedOrder.items.map((item, idx) => (
                   <div key={idx} className="flex items-center justify-between gap-3 py-1.5 bg-white p-2.5 rounded border border-gray-200">
                     <div className="flex items-center gap-2.5 min-w-0">
-                      {item.image && <img src={item.image} alt={item.name} className="w-10 h-10 object-cover rounded border border-gray-200" />}
+                      {item.image && (
+                        <img
+                          src={getImageUrl(item.image)}
+                          alt={item.name}
+                          className="w-10 h-10 object-cover rounded border border-gray-200 shrink-0 bg-slate-50"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            target.onerror = null;
+                            target.src = DEFAULT_PLACEHOLDER;
+                          }}
+                        />
+                      )}
                       <div className="truncate">
                         <p className="text-xs font-semibold text-gray-800 truncate">{item.name}</p>
                         <span className="text-[11px] text-gray-500">Số lượng: x{item.quantity}</span>

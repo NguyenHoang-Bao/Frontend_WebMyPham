@@ -1,4 +1,4 @@
-import bgImg from '../../assets/img/Home/banner-my-pham-06.jpg';
+import bgImg from '../../assets/img/login/biaLogin.jpg';
 
 export default function AuthBanner() {
   return (

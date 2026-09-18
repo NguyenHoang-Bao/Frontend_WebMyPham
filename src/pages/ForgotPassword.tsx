@@ -36,19 +36,19 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex h-screen w-full overflow-hidden bg-white">
       {/* Nửa Trái: Banner 1 hình ảnh */}
       <AuthBanner />
 
       {/* Nửa Phải: Form Khôi phục mật khẩu */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center relative py-12 px-4">
+      <div className="w-full lg:w-1/2 flex items-center justify-center relative py-6 px-6 sm:px-10 overflow-hidden h-full">
         <Link to="/login" className="absolute top-6 right-6 text-gray-400 hover:text-rose-600 transition-colors">
           <X size={28} />
         </Link>
 
-        <div className="w-full max-w-md">
-          <h2 className="text-3xl font-bold text-gray-900 uppercase mb-2">Khôi Phục Mật Khẩu</h2>
-          <p className="text-gray-500 text-sm mb-8">Nhập số điện thoại hoặc email bạn đã đăng ký để nhận mã khôi phục.</p>
+        <div className="w-full max-w-md my-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase mb-2">Khôi Phục Mật Khẩu</h2>
+          <p className="text-gray-500 text-xs sm:text-sm mb-6">Nhập số điện thoại hoặc email bạn đã đăng ký để nhận mã khôi phục.</p>
           
           {status.message && (
             <div className={`mb-6 text-sm font-medium ${status.type === 'error' ? 'text-red-500' : 'text-emerald-600'}`}>
@@ -56,7 +56,7 @@ export default function ForgotPassword() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="relative">
               <input
                 type="text"

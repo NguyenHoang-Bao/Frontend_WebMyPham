@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+const DEFAULT_PLACEHOLDER = 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80&auto=format&fit=crop';
+
 interface ProductGalleryProps {
   images: string[];
   name: string;
@@ -21,11 +23,16 @@ export default function ProductGallery({ images, name, discountPercent, inStock 
   return (
     <div className="lg:w-1/2 flex flex-col gap-4">
       {/* Khung ảnh chính */}
-      <div className="relative w-full aspect-square bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 flex items-center justify-center p-4">
+      <div className="relative w-full aspect-square bg-gray-50 rounded-2xl border border-gray-200 flex items-center justify-center p-4">
         <img 
-          src={images[activeImage]} 
+          src={images[activeImage] || DEFAULT_PLACEHOLDER} 
           alt={name} 
           className="w-full h-full object-contain transition-transform duration-300 hover:scale-105" 
+          onError={(e) => {
+            const target = e.currentTarget;
+            target.onerror = null;
+            target.src = DEFAULT_PLACEHOLDER;
+          }}
         />
         {discountPercent > 0 && (
           <span className="absolute top-4 left-4 bg-rose-500 text-white font-bold text-xs uppercase px-2.5 py-1 rounded-md shadow-sm">
@@ -45,13 +52,22 @@ export default function ProductGallery({ images, name, discountPercent, inStock 
               key={idx}
               type="button"
               onClick={() => setActiveImage(idx)}
-              className={`aspect-square bg-gray-50 rounded-xl border p-1 overflow-hidden transition-all cursor-pointer ${
+              className={`aspect-square bg-gray-50 rounded-xl border p-1 overflow-hidden transition-all cursor-pointer flex items-center justify-center shrink-0 ${
                 activeImage === idx 
                   ? 'border-rose-500 ring-2 ring-rose-200 shadow-sm' 
                   : 'border-gray-200 hover:border-gray-400 opacity-70 hover:opacity-100'
               }`}
             >
-              <img src={img} alt={`${name} ${idx + 1}`} className="w-full h-full object-contain" />
+              <img 
+                src={img || DEFAULT_PLACEHOLDER} 
+                alt={`${name} ${idx + 1}`} 
+                className="w-full h-full object-contain" 
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  target.onerror = null;
+                  target.src = DEFAULT_PLACEHOLDER;
+                }}
+              />
             </button>
           ))}
         </div>

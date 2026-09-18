@@ -51,10 +51,20 @@ const allProductsWithCategory: Product[] = productsData.map(p => ({
 })) as Product[];
 
 const CLOUDINARY_BASE_URL = import.meta.env.VITE_CLOUDINARY_BASE_URL || 'https://res.cloudinary.com/hb22fnuq/image/upload';
-const getImageUrl = (path: string) => {
-  if (!path) return '';
+const DEFAULT_PLACEHOLDER = 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80&auto=format&fit=crop';
+
+const getImageUrl = (path?: string) => {
+  if (!path) return DEFAULT_PLACEHOLDER;
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
-  return `${CLOUDINARY_BASE_URL}/${path}`;
+  if (path.includes('assets/')) {
+    try {
+      return new URL(path, import.meta.url).href;
+    } catch {
+      return DEFAULT_PLACEHOLDER;
+    }
+  }
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${CLOUDINARY_BASE_URL}/${cleanPath}`;
 };
 
 export default function ProductDetail() {
@@ -84,6 +94,9 @@ export default function ProductDetail() {
       if (imageList.length === 0 && foundProduct.thumbnail) {
         const url = getImageUrl(foundProduct.thumbnail);
         if (url) imageList.push(url);
+      }
+      if (imageList.length === 0) {
+        imageList.push(DEFAULT_PLACEHOLDER);
       }
       setProduct({ ...foundProduct, images: imageList });
     } else {
@@ -125,8 +138,11 @@ export default function ProductDetail() {
     );
   }
 
-  const discountPercent = product.originalPrice && product.originalPrice > product.price
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
+  const origPrice = product.originalPrice && product.originalPrice > product.price
+    ? product.originalPrice
+    : Math.round((product.price * 1.25) / 1000) * 1000;
+
+  const discountPercent = Math.round(((origPrice - product.price) / origPrice) * 100);
 
   // Xây dựng mảng breadcrumb động dựa trên thông tin sản phẩm
   const breadcrumbItems: Array<{ label: string; link?: string }> = [

@@ -4,6 +4,23 @@ import { Package, ShoppingBag, ChevronRight, MapPin } from 'lucide-react';
 import { Order, getDefaultOrders } from './types';
 import OrderStatusBadge from './OrderStatusBadge';
 
+const CLOUDINARY_BASE_URL = 'https://res.cloudinary.com/hb22fnuq/image/upload';
+const DEFAULT_PLACEHOLDER = 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80&auto=format&fit=crop';
+
+const getImageUrl = (path?: string) => {
+  if (!path) return DEFAULT_PLACEHOLDER;
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  if (path.includes('assets/')) {
+    try {
+      return new URL(path, import.meta.url).href;
+    } catch {
+      return DEFAULT_PLACEHOLDER;
+    }
+  }
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${CLOUDINARY_BASE_URL}/${cleanPath}`;
+};
+
 export default function UserTracking({ currentUser }: { currentUser: any }) {
   const [activeTab, setActiveTab] = useState<string>('all');
   const [orders, setOrders] = useState<Order[]>([]);
@@ -102,7 +119,18 @@ export default function UserTracking({ currentUser }: { currentUser: any }) {
               <div className="p-4 divide-y divide-gray-100">
                 {order.items.map((item, idx) => (
                   <div key={idx} className="py-2.5 first:pt-0 last:pb-0 flex items-center gap-3">
-                    {item.image && <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded border border-gray-200 shrink-0" />}
+                    {item.image && (
+                      <img
+                        src={getImageUrl(item.image)}
+                        alt={item.name}
+                        className="w-12 h-12 object-cover rounded border border-gray-200 shrink-0 bg-slate-50"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.onerror = null;
+                          target.src = DEFAULT_PLACEHOLDER;
+                        }}
+                      />
+                    )}
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium text-gray-800 text-xs md:text-sm truncate">{item.name}</h4>
                       <p className="text-[11px] text-gray-500 mt-0.5">Số lượng: x{item.quantity}</p>

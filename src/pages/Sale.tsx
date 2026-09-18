@@ -8,7 +8,6 @@ import {
   Copy, 
   Check, 
   ShoppingCart, 
-  Sparkles, 
   TrendingUp, 
   ShieldCheck, 
   Truck, 
@@ -45,12 +44,21 @@ export interface SaleProduct {
   [key: string]: any;
 }
 
-// Hàm helper để tạo URL ảnh từ Cloudinary
 const CLOUDINARY_BASE_URL = import.meta.env.VITE_CLOUDINARY_BASE_URL || 'https://res.cloudinary.com/hb22fnuq/image/upload';
-const getImageUrl = (path: string) => {
-  if (!path) return '';
+const DEFAULT_PLACEHOLDER = 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80&auto=format&fit=crop';
+
+const getImageUrl = (path?: string) => {
+  if (!path) return DEFAULT_PLACEHOLDER;
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
-  return `${CLOUDINARY_BASE_URL}/${path}`;
+  if (path.includes('assets/')) {
+    try {
+      return new URL(path, import.meta.url).href;
+    } catch {
+      return DEFAULT_PLACEHOLDER;
+    }
+  }
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${CLOUDINARY_BASE_URL}/${cleanPath}`;
 };
 
 // Danh sách mã giảm giá độc quyền
@@ -223,40 +231,6 @@ export default function Sale() {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // 3. Live FOMO Ticker (Popup người vừa mua ngẫu nhiên)
-  const [recentOrder, setRecentOrder] = useState<{
-    customer: string;
-    location: string;
-    product: string;
-    timeAgo: string;
-  } | null>(null);
-
-  useEffect(() => {
-    const orders = [
-      { customer: 'Ngọc Mai', location: 'Hà Nội', product: 'Kem Dưỡng Ẩm Chuyên Sâu Cetaphil 566g', timeAgo: '1 phút trước' },
-      { customer: 'Thùy Dung', location: 'TP. Hồ Chí Minh', product: 'Serum Cấp Ẩm Phục Hồi Chuyên Sâu', timeAgo: '3 phút trước' },
-      { customer: 'Lan Hương', location: 'Đà Nẵng', product: 'Sữa Rửa Mặt Dịu Nhẹ Cho Da Nhạy Cảm', timeAgo: '2 phút trước' },
-      { customer: 'Hoàng Anh', location: 'Hải Phòng', product: 'Combo Dưỡng Ẩm Phục Hồi 48h', timeAgo: '4 phút trước' },
-      { customer: 'Bảo Trâm', location: 'Cần Thơ', product: 'Kem Dưỡng Làm Dịu Da Cho Bé', timeAgo: '30 giây trước' }
-    ];
-
-    let index = 0;
-    const interval = setInterval(() => {
-      setRecentOrder(orders[index % orders.length]);
-      index++;
-      setTimeout(() => setRecentOrder(null), 4500);
-    }, 11000);
-
-    const initialTimeout = setTimeout(() => {
-      setRecentOrder(orders[0]);
-      setTimeout(() => setRecentOrder(null), 4500);
-    }, 2500);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(initialTimeout);
-    };
-  }, []);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -517,6 +491,11 @@ export default function Sale() {
                       src={getImageUrl(product.image)}
                       alt={product.name}
                       className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.onerror = null;
+                        target.src = DEFAULT_PLACEHOLDER;
+                      }}
                     />
                     
                     {/* Badge Giảm Giá */}
@@ -640,6 +619,11 @@ export default function Sale() {
                       src={getImageUrl(product.image)}
                       alt={product.name}
                       className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.onerror = null;
+                        target.src = DEFAULT_PLACEHOLDER;
+                      }}
                     />
 
                     {/* Huy hiệu giảm giá */}
@@ -705,28 +689,6 @@ export default function Sale() {
         </div>
       </section>
 
-      {/* ── 7. LIVE FOMO PURCHASE POPUP (Góc trái màn hình) ── */}
-      {recentOrder && (
-        <aside 
-          aria-live="polite"
-          className="fixed bottom-5 left-5 z-40 bg-white/95 border border-pink-200 text-slate-800 p-3.5 rounded-2xl shadow-[0_10px_40px_rgba(244,114,182,0.2)] backdrop-blur-md max-w-xs animate-in slide-in-from-bottom-5 duration-300 flex items-start gap-3"
-        >
-          <div className="w-10 h-10 rounded-full bg-pink-100 border border-pink-200 flex items-center justify-center text-pink-500 shrink-0">
-            <Flame size={18} className="animate-pulse" />
-          </div>
-          <div className="text-xs">
-            <p className="font-semibold text-slate-600">
-              <strong className="text-rose-600">{recentOrder.customer}</strong> ({recentOrder.location})
-            </p>
-            <p className="text-slate-800 line-clamp-1 mt-0.5 font-bold">
-              Vừa mua {recentOrder.product}
-            </p>
-            <span className="text-[10px] text-pink-500 font-medium mt-1 block">
-              ⚡ {recentOrder.timeAgo}
-            </span>
-          </div>
-        </aside>
-      )}
 
       {/* ── 8. TOAST THÊM VÀO GIỎ HÀNG THÀNH CÔNG ── */}
       {toastMessage && (

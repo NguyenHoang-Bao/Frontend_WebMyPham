@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { BsFacebook, BsInstagram, BsTelephone } from 'react-icons/bs';
 
 // Import các Component và Pages
@@ -8,6 +9,7 @@ import Footer from './components/Footer/Footer';
 import CartPanel from './components/CartPanel';
 import Contact from './pages/Contact';
 import Tips from './pages/Tips';
+import BlogDetail from './pages/BlogDetail';
 import About from './pages/About';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -19,44 +21,66 @@ import ProductDetail from './pages/ProductDetail';
 import Sale from './pages/Sale';
 import Admin from './pages/Admin';
 import OrderTracking from './pages/OrderTracking';
+import Checkout from './pages/Checkout';
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const authRoutes = ['/login', '/register', '/forgot-password'];
+  const isAuthPage = authRoutes.includes(location.pathname.toLowerCase().replace(/\/$/, '')) || authRoutes.includes(location.pathname);
+
+  // Khóa thanh cuộn trang khi ở các trang xác thực (login, register, forgot-password)
+  useEffect(() => {
+    if (isAuthPage) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [isAuthPage]);
+
   return (
-    <Router>
-      {/* Component này sẽ tự động cuộn lên đầu trang khi chuyển route */}
-      <ScrollToTop />
+    <div className={`flex flex-col ${isAuthPage ? 'h-screen overflow-hidden bg-white' : 'min-h-screen bg-black'}`}>
+      {/* Navbar luôn hiển thị ở trên cùng (ngoại trừ trang auth) */}
+      {!isAuthPage && <Navbar />}
+      
+      {/* Cart Panel sẽ được render ở đây */}
+      {!isAuthPage && <CartPanel />}
 
-      <div className="flex flex-col min-h-screen bg-black">
-        {/* Navbar luôn hiển thị ở trên cùng mọi trang */}
-        <Navbar />
-        
-        {/* Cart Panel sẽ được render ở đây */}
-        <CartPanel />
+      {/* Nơi chứa ruột của trang (sẽ thay đổi tùy theo link) */}
+      <main className={`flex-grow ${isAuthPage ? 'h-full overflow-hidden' : ''}`}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/sale" element={<Sale />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/tips" element={<Tips />} />
+          <Route path="/tips/:id" element={<BlogDetail />} />
+          <Route path="/blog" element={<Tips />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-tracking" element={<OrderTracking />} />
+          <Route path="/tracking" element={<OrderTracking />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </main>
 
-        {/* Nơi chứa ruột của trang (sẽ thay đổi tùy theo link) */}
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/sale" element={<Sale />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/tips" element={<Tips />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/order-tracking" element={<OrderTracking />} />
-            <Route path="/tracking" element={<OrderTracking />} />
-            <Route path="/admin" element={<Admin />} />
-          </Routes>
-        </main>
+      {/* Footer luôn hiển thị ở dưới cùng (ngoại trừ trang auth) */}
+      {!isAuthPage && <Footer />}
 
-        {/* Footer luôn hiển thị ở dưới cùng mọi trang */}
-        <Footer />
-
-        {/* Floating Contact Icons */}
+      {/* Floating Contact Icons (ẩn ở trang auth để tập trung vào form và banner) */}
+      {!isAuthPage && (
         <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2">
           <a
             href="tel:0359490221"
@@ -84,7 +108,17 @@ function App() {
             <BsInstagram size={18} />
           </a>
         </div>
-      </div>
+      )}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      {/* Component này sẽ tự động cuộn lên đầu trang khi chuyển route */}
+      <ScrollToTop />
+      <AppContent />
     </Router>
   );
 }

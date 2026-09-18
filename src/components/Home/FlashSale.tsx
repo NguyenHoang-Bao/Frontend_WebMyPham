@@ -15,10 +15,20 @@ interface Product {
 // Hàm helper để tạo URL ảnh từ Cloudinary
 // Khai báo kiểu string cho tham số path
 const CLOUDINARY_BASE_URL = import.meta.env.VITE_CLOUDINARY_BASE_URL || 'https://res.cloudinary.com/hb22fnuq/image/upload';
-const getImageUrl = (path: string) => {
-  if (!path) return '';
+const DEFAULT_PLACEHOLDER = 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80&auto=format&fit=crop';
+
+const getImageUrl = (path?: string) => {
+  if (!path) return DEFAULT_PLACEHOLDER;
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
-  return `${CLOUDINARY_BASE_URL}/${path}`;
+  if (path.includes('assets/')) {
+    try {
+      return new URL(path, import.meta.url).href;
+    } catch {
+      return DEFAULT_PLACEHOLDER;
+    }
+  }
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${CLOUDINARY_BASE_URL}/${cleanPath}`;
 };
 export default function FlashSale(){
       // Lấy 4 sản phẩm đầu tiên làm Featured Products
@@ -95,25 +105,47 @@ export default function FlashSale(){
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-              {flashSaleProducts.map((product) => (
-                <Link to={`/product/${product.id}`} key={product.id} className="group bg-white block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                  <div className="relative overflow-hidden bg-white aspect-[3/4]">
-                    <img
-                      src={getImageUrl(product.image)}
-                      alt={product.name}
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-3.5">
-                    <h3 className="text-gray-900 group-hover:text-rose-600 transition-colors text-[15px] font-bold mb-1.5 truncate">
-                      {product.name}
-                    </h3>
-                    <p className="text-rose-600 font-extrabold text-base">
-                      {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
-                    </p>
-                  </div>
-                </Link>
-              ))}
+              {flashSaleProducts.map((product) => {
+                const origPrice = product.originalPrice && product.originalPrice > product.price
+                  ? product.originalPrice
+                  : Math.round((product.price * 1.25) / 1000) * 1000;
+                const discountPercent = Math.round(((origPrice - product.price) / origPrice) * 100);
+
+                return (
+                  <Link to={`/product/${product.id}`} key={product.id} className="group bg-white block rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow relative">
+                    <div className="relative overflow-hidden bg-white aspect-[3/4] shrink-0">
+                      <img
+                        src={getImageUrl(product.image)}
+                        alt={product.name}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.onerror = null;
+                          target.src = DEFAULT_PLACEHOLDER;
+                        }}
+                      />
+                      {discountPercent > 0 && (
+                        <span className="absolute top-2 right-2 bg-rose-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-sm z-10">
+                          -{discountPercent}%
+                        </span>
+                      )}
+                    </div>
+                    <div className="p-3.5">
+                      <h3 className="text-gray-900 group-hover:text-rose-600 transition-colors text-[15px] font-bold mb-1.5 truncate">
+                        {product.name}
+                      </h3>
+                      <div className="flex items-baseline gap-2 flex-wrap">
+                        <span className="text-rose-600 font-extrabold text-base">
+                          {product.price.toLocaleString('vi-VN')}₫
+                        </span>
+                        <span className="text-gray-400 line-through text-xs font-medium">
+                          {origPrice.toLocaleString('vi-VN')}₫
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
 
             <div className="text-center mt-8">
